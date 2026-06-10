@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>小荷包 · 飞创未来科技工作室</title>
+<script>window.chartJsLoaded=false;function loadChartJS(cb){if(typeof Chart!=='undefined'){window.chartJsLoaded=true;if(cb)cb();return}const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js?v=1';s.onload=function(){window.chartJsLoaded=true;if(cb)cb()};s.onerror=function(){console.warn('Chart.js CDN failed')};document.head.appendChild(s)};loadChartJS();</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root,[data-theme=light]{--primary:#FF6B35;--success:#2ECC71;--danger:#E74C3C;--warning:#F39C12;--bg:#F5F6FA;--card:#FFF;--card-shadow:0 2px 12px rgba(0,0,0,.06);--text:#1A1A2E;--text2:#8E8EA0;--text3:#B0B0C0;--border:#EDEDF0;--overlay:rgba(0,0,0,.4);--nav-bg:var(--card);--nav-border:var(--border)}
+[data-theme=dark]{--primary:#FF8F65;--success:#27AE60;--danger:#E74C3C;--warning:#F39C12;--bg:#0F0F1A;--card:#1A1A2E;--card-shadow:0 2px 12px rgba(0,0,0,.3);--text:#E8E8F0;--text2:#8E8EA0;--text3:#5A5A6E;--border:#2A2A3E;--overlay:rgba(0,0,0,.7);--nav-bg:#1A1A2E;--nav-border:#2A2A3E}
+:root{--radius:14px;--radius-sm:10px;--radius-xs:6px;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+html{font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text3);border-radius:3px}
+.splash-screen{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,var(--primary)0%,#E55D2B 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s,transform .5s;overflow:hidden}
+.splash-screen.hidden{opacity:0;transform:scale(1.1);pointer-events:none}
+.splash-logo{width:76px;height:76px;border-radius:18px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:2.6rem;animation:splashPulse 1.2s ease-in-out infinite;margin-bottom:14px}
+.splash-logo img{width:100%;height:100%;border-radius:18px;object-fit:cover}
+@keyframes splashPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,255,255,.2)}50%{transform:scale(1.08);box-shadow:0 0 30px 10px rgba(255,255,255,.15)}}
+.splash-title{font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:1px;margin-bottom:3px}
+.splash-sub{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:28px;letter-spacing:2px}
+.splash-loader{width:110px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+.splash-loader-bar{height:100%;width:0;background:#fff;border-radius:2px;animation:splashLoad 1.2s ease-out forwards}
+@keyframes splashLoad{0%{width:0}60%{width:70%}100%{width:100%}}
+.splash-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.splash-particle{position:absolute;width:6px;height:6px;background:rgba(255,255,255,.2);border-radius:50%;animation:particleFloat 3s ease-in-out infinite}
+.splash-particle:nth-child(1){top:10%;left:20%}.splash-particle:nth-child(2){top:30%;right:15%;animation-delay:.4s;width:8px;height:8px}
+.splash-particle:nth-child(3){bottom:20%;left:30%;animation-delay:.8s;width:5px;height:5px}
+.splash-particle:nth-child(4){top:60%;right:25%;animation-delay:1.2s;width:7px;height:7px}
+.splash-particle:nth-child(5){bottom:35%;left:60%;animation-delay:1.6s;width:4px;height:4px}
+@keyframes particleFloat{0%,100%{transform:translateY(0)scale(1);opacity:.3}50%{transform:translateY(-20px)scale(1.5);opacity:.6}}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary)0%,#FF8F65 50%,#E55D2B 100%);padding:20px;position:relative;overflow:hidden}
+.login-page::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(255,255,255,.08)0%,transparent 60%);pointer-events:none}
+.login-card{background:var(--card);border-radius:24px;padding:34px 26px 26px;width:100%;max-width:370px;box-shadow:0 20px 60px rgba(0,0,0,.15);position:relative;z-index:1;animation:loginFade .5s ease}
+@keyframes loginFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.login-logo{text-align:center;margin-bottom:6px}.login-logo img{height:42px;border-radius:8px}
+.login-brand{text-align:center;font-size:.82rem;color:var(--text2);margin-bottom:3px}
+.login-title{text-align:center;font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:3px}
+.login-sub{text-align:center;font-size:.78rem;color:var(--text3);margin-bottom:22px}
+.login-error{background:#FDEDEC;color:#C0392B;padding:9px 13px;border-radius:var(--radius-xs);font-size:.8rem;margin-bottom:12px;display:none}
+.login-input-group{margin-bottom:13px;position:relative}
+.login-input-group .input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.95rem;color:var(--text3)}
+.login-input{width:100%;padding:12px 13px 12px 38px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border-color .2s}
+.login-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,107,53,.1)}.login-btn{width:100%;padding:13px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:3px}
+.login-btn:hover{background:#E55D2B}.login-toggle{text-align:center;margin-top:13px;font-size:.8rem;color:var(--text2)}
+.login-toggle a{color:var(--primary);cursor:pointer;font-weight:600;text-decoration:none}.login-toggle a:hover{text-decoration:underline}
+.toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--text);color:#fff;padding:11px 22px;border-radius:11px;font-size:.85rem;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.15);animation:toastIn .35s,toastOut .35s forwards;animation-delay:0s,2.2s;pointer-events:auto}
+@keyframes toastIn{from{opacity:0;transform:translateY(-20px)scale(.95)}to{opacity:1}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateY(-20px)scale(.95)}}
+/* ===== APP HEADER ===== */
+.app-header{background:linear-gradient(135deg,var(--primary)0%,#E55D2B 100%);padding:14px 18px 22px;color:#fff;position:relative;overflow:hidden}
+.brand-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;position:relative;z-index:1}
+.brand-logo{height:32px;width:auto;border-radius:5px}.brand-text{font-size:.75rem;font-weight:500;opacity:.85}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;position:relative;z-index:1}
+.header-top h1{font-size:1.3rem;font-weight:700;letter-spacing:.5px}
+.header-actions{display:flex;gap:6px;align-items:center}
+.header-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:#fff;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.header-btn:hover{background:rgba(255,255,255,.3)}.header-user{font-size:.7rem;opacity:.85}
+.mode-switcher{display:flex;background:rgba(255,255,255,.15);border-radius:20px;padding:3px;margin-bottom:12px;position:relative;z-index:1}
+.mode-btn{flex:1;padding:5px 12px;border:none;border-radius:17px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .25s;color:rgba(255,255,255,.7);background:transparent}
+.mode-btn.active{background:#fff;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.balance-card{text-align:center;position:relative;z-index:1}
+.balance-label{font-size:.78rem;opacity:.85;margin-bottom:2px}
+.balance-amount{font-size:2.4rem;font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:3px}
+.balance-amount .currency{font-size:1.15rem;font-weight:600}.balance-sub{font-size:.78rem;opacity:.75}
+.quick-stats{display:flex;gap:8px;padding:0 14px;margin-top:-12px;position:relative;z-index:2}
+.stat-card{flex:1;background:var(--card);border-radius:var(--radius);padding:11px 6px;box-shadow:var(--card-shadow);text-align:center;transition:background .3s}
+.stat-card .stat-icon{font-size:.95rem}.stat-card .stat-value{font-size:.95rem;font-weight:700;color:var(--text)}
+.stat-card .stat-label{font-size:.62rem;color:var(--text2);margin-top:1px}
+.section{margin-top:16px;padding:0 14px}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.section-title{font-size:.95rem;font-weight:700;color:var(--text)}
+.section-action{font-size:.75rem;color:var(--primary);font-weight:600;cursor:pointer;background:none;border:none;padding:3px 7px;border-radius:var(--radius-xs);transition:background .2s}
+.section-action:hover{background:var(--primary-light)}.section-toggle{font-size:.7rem;color:var(--text3);cursor:pointer;background:none;border:none;padding:3px 7px}
+.search-bar{margin:-6px 14px 8px;position:relative;z-index:2}
+.search-bar input{width:100%;padding:8px 12px 8px 32px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;color:var(--text);background:var(--card);outline:none;transition:border-color .2s,background .3s}
+.search-bar input:focus{border-color:var(--primary)}.search-bar .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--text3)}
+.tag-filter{display:flex;gap:5px;padding:0 14px 8px;flex-wrap:wrap}
+.tag-pill{padding:3px 10px;border-radius:12px;border:1px solid var(--border);background:var(--card);font-size:.7rem;font-weight:500;cursor:pointer;transition:all .2s;color:var(--text2)}
+.tag-pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.filter-bar{display:flex;gap:5px;padding:6px 14px 0;align-items:center}
+.filter-bar .filter-search{flex:1;position:relative}
+.filter-bar .filter-search input{width:100%;padding:7px 9px 7px 28px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.78rem;font-family:inherit;color:var(--text);background:var(--card);outline:none;transition:border-color .2s,background .3s}
+.filter-bar .filter-search input:focus{border-color:var(--primary)}
+.filter-bar .filter-search .fs-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:.75rem;color:var(--text3)}
+.pot-card{background:var(--card);border-radius:var(--radius);padding:13px;margin-bottom:9px;box-shadow:var(--card-shadow);cursor:pointer;transition:transform .15s,background .3s;position:relative;overflow:hidden}
+.pot-card:active{transform:scale(.98)}.pot-card.archived{opacity:.55}
+.pot-card .archived-badge{position:absolute;top:7px;right:7px;font-size:.58rem;background:var(--text3);color:#fff;padding:1px 5px;border-radius:3px;font-weight:600}
+.pot-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.pot-card-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.pot-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.pot-info .pot-name{font-weight:600;font-size:.85rem}
+.pot-info .pot-name .pot-tag-badge{display:inline-block;padding:1px 4px;border-radius:3px;font-size:.55rem;font-weight:600;margin-left:3px;vertical-align:middle}
+.pot-info .pot-target{font-size:.7rem;color:var(--text2)}.pot-info .pot-members{font-size:.65rem;color:var(--text3);margin-top:1px}
+.pot-balance{text-align:right;flex-shrink:0}.pot-balance .amount{font-weight:700;font-size:.95rem}.pot-balance .sublabel{font-size:.65rem;color:var(--text3)}
+.pot-progress-wrap{margin-bottom:6px}.pot-progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.pot-progress-fill{height:100%;border-radius:2px;transition:width .5s}.pot-progress-text{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text2);margin-top:2px}
+.pot-card-actions{display:flex;gap:4px;justify-content:flex-end;margin-top:4px;flex-wrap:wrap}
+.pot-btn{padding:3px 11px;border:none;border-radius:15px;font-size:.7rem;font-weight:600;cursor:pointer;transition:background .2s}
+.pot-btn-primary{background:var(--primary);color:#fff}.pot-btn-primary:hover{background:#E55D2B}.pot-btn-success{background:#E8F8F0;color:#1A9E5C}.pot-btn-success:hover{background:#D0F0E0}
+.pot-btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border)}.pot-btn-outline:hover{background:var(--bg)}
+.pot-btn-warning{background:#FEF5E7;color:#D68910}.pot-btn-warning:hover{background:#FDEBD0}
+.empty-state{text-align:center;padding:32px 14px;color:var(--text2)}.empty-state .empty-icon{font-size:2.2rem;margin-bottom:7px;opacity:.5}
+.empty-state h3{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:3px}.empty-state p{font-size:.78rem}
+.modal-overlay{position:fixed;inset:0;background:var(--overlay);z-index:1000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px);animation:fadeIn .2s}
+.modal-overlay.active{display:flex}.modal-overlay.center{align-items:center}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card);border-radius:var(--radius)var(--radius)0 0;width:100%;max-width:480px;padding:16px 14px;animation:slideUp .3s;max-height:85vh;overflow-y:auto;transition:background .3s}
+.modal.center-mode{border-radius:var(--radius);margin:14px;max-height:80vh}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:sticky;top:0;background:var(--card);z-index:2;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:1rem;font-weight:700}.modal-close{width:26px;height:26px;border-radius:50%;border:none;background:var(--bg);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:background .2s}
+.modal-close:hover{background:var(--border)}
+.form-group{margin-bottom:11px}.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 11px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;color:var(--text);background:var(--card);outline:none;transition:border-color .2s,background .3s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--primary)}
+.form-textarea{resize:vertical;min-height:46px}.form-input-lg{font-size:1.2rem;font-weight:700;text-align:center;padding:10px}
+.form-hint{font-size:.68rem;color:var(--text3);margin-top:2px}.form-row{display:flex;gap:7px}.form-row .form-group{flex:1}
+.quick-amounts{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;justify-content:center}
+.quick-btn{padding:5px 12px;border-radius:16px;border:1.5px solid var(--border);background:transparent;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text2)}
+.quick-btn:hover,.quick-btn.selected{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.icon-option{width:100%;aspect-ratio:1;border:2px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.15rem;cursor:pointer;transition:all .2s;background:var(--card)}
+.icon-option:hover{border-color:var(--primary);background:var(--primary-light)}.icon-option.selected{border-color:var(--primary);background:var(--primary-light);transform:scale(1.05)}
+.color-grid{display:flex;gap:5px;flex-wrap:wrap}
+.color-option{width:26px;height:26px;border-radius:50%;cursor:pointer;transition:transform .2s;border:3px solid transparent;flex-shrink:0}
+.color-option:hover{transform:scale(1.15)}.color-option.selected{border-color:var(--text);transform:scale(1.15)}
+.color-option-sm{width:22px;height:22px;border-radius:50%;cursor:pointer;transition:transform .15s;border:2px solid transparent;flex-shrink:0}
+.color-option-sm:hover{transform:scale(1.15)}.color-option-sm.selected{border-color:var(--text);transform:scale(1.15)}
+.record-list{margin-top:3px}
+.record-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}.record-item:last-child{border-bottom:none}
+.record-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.record-icon.deposit,.record-icon.income{background:#E8F8F0;color:#1A9E5C}
+.record-icon.withdraw,.record-icon.expense{background:#FDEDEC;color:#C0392B}
+.record-icon.auto-deposit,.record-icon.transfer{background:#FEF5E7;color:#D68910}
+.record-detail{flex:1;min-width:0}
+.record-detail .record-note{font-size:.8rem;font-weight:500}
+.record-detail .record-note .record-type-badge{display:inline-block;font-size:.55rem;padding:1px 4px;border-radius:2px;font-weight:600;margin-left:3px;vertical-align:middle}
+.record-detail .record-meta{font-size:.65rem;color:var(--text3);margin-top:1px}
+.record-amount{font-size:.82rem;font-weight:700;text-align:right;flex-shrink:0}
+.record-amount.deposit,.record-amount.income{color:#1A9E5C}
+.record-amount.withdraw,.record-amount.expense{color:#C0392B}
+.record-amount.auto-deposit,.record-amount.transfer{color:#D68910}
+.record-highlight{background:rgba(255,107,53,.12);border-radius:3px;padding:0 2px}
+.pot-detail-view{position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;display:none}
+.pot-detail-view.active{display:block;animation:pageIn .25s}@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pot-detail-header{padding:40px 14px 16px;color:#fff;position:relative}
+.pot-detail-header .back-btn{position:absolute;top:9px;left:10px;background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pot-detail-header .more-btn{position:absolute;top:9px;right:10px;background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pot-detail-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 5px;background:rgba(255,255,255,.2)}
+.pot-detail-name{text-align:center;font-size:1.1rem;font-weight:700}.pot-detail-target{text-align:center;font-size:.72rem;opacity:.75}
+.pot-detail-amount{text-align:center;font-size:1.9rem;font-weight:800;letter-spacing:-1px;margin-top:5px}.pot-detail-sub{text-align:center;font-size:.7rem;opacity:.7}
+.pot-detail-progress{background:var(--card);margin:-10px 14px 0;border-radius:var(--radius);padding:11px;box-shadow:var(--card-shadow);position:relative;z-index:2}
+.progress-ring-row{display:flex;align-items:center;gap:10px}
+.ring-wrap{width:64px;height:64px;flex-shrink:0}.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.progress-info{flex:1}.progress-pct{font-size:1.2rem;font-weight:800;color:var(--primary)}
+.progress-pct-label{font-size:.7rem;color:var(--text2)}.progress-meta{font-size:.7rem;color:var(--text2);margin-top:2px}
+.pot-detail-actions{display:flex;gap:7px;padding:8px 14px}.action-btn{flex:1;padding:10px;border:none;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;transition:transform .1s}
+.action-btn:active{transform:scale(.97)}
+.members-section{padding:0 14px;margin-top:4px}.members-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.members-title{font-size:.8rem;font-weight:600;color:var(--text)}.members-count{font-size:.65rem;color:var(--text3);margin-left:3px}
+.member-avatars{display:flex;align-items:center}.member-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff;border:2px solid var(--card);margin-right:-4px}
+.member-avatar.more{background:var(--border);color:var(--text2);font-size:.52rem}
+.chart-section{padding:0 14px;margin-top:8px}.chart-card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--card-shadow)}
+.chart-title{font-size:.78rem;font-weight:600;margin-bottom:5px;color:var(--text)}.chart-wrap{height:140px;position:relative}
+.auto-plan-card{background:var(--card);border-radius:var(--radius);padding:11px;margin-bottom:5px;box-shadow:var(--card-shadow);display:flex;align-items:center;gap:8px}
+.auto-plan-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;background:#FEF5E7;color:#D68910}
+.auto-plan-info{flex:1;min-width:0}.auto-plan-info .plan-title{font-size:.8rem;font-weight:600}
+.auto-plan-info .plan-detail{font-size:.68rem;color:var(--text2);margin-top:1px}
+.auto-plan-toggle{width:36px;height:19px;border-radius:9px;background:var(--border);border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.auto-plan-toggle.active{background:var(--primary)}.auto-plan-toggle::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .2s}
+.auto-plan-toggle.active::after{left:19px}
+.milestone-list{margin-bottom:4px}.milestone-item{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)}.milestone-item:last-child{border-bottom:none}
+.milestone-check{width:19px;height:19px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.5rem;color:#fff;transition:all .2s}
+.milestone-check.achieved{background:var(--success);border-color:var(--success)}.milestone-info{flex:1;min-width:0}
+.milestone-info .ms-name{font-size:.78rem;font-weight:500}.milestone-info .ms-target{font-size:.65rem;color:var(--text3)}
+.milestone-info .ms-bar{height:3px;background:var(--border);border-radius:2px;margin-top:2px;overflow:hidden}
+.milestone-info .ms-bar-fill{height:100%;border-radius:2px;transition:width .4s}.milestone-amount{font-size:.72rem;font-weight:600;color:var(--text2);flex-shrink:0}
+.filter-tabs{display:flex;gap:5px;padding:6px 14px 0}.filter-tab{padding:3px 10px;border-radius:12px;border:1px solid var(--border);background:var(--card);font-size:.7rem;font-weight:500;cursor:pointer;transition:all .2s;color:var(--text2)}
+.filter-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.confirm-dialog{background:var(--card);border-radius:var(--radius);padding:20px 16px 14px;max-width:280px;margin:0 auto;text-align:center}
+.confirm-dialog h3{font-size:.95rem;margin-bottom:5px}.confirm-dialog p{font-size:.78rem;color:var(--text2);margin-bottom:12px}
+.confirm-btns{display:flex;gap:7px}.confirm-btns button{flex:1;padding:8px;border:none;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;font-size:.8rem;transition:transform .1s}
+.confirm-btns button:active{transform:scale(.97)}.btn-cancel{background:var(--bg);color:var(--text2)}.btn-danger{background:var(--danger);color:#fff}.btn-confirm{background:var(--primary);color:#fff}
+.invite-code-box{background:var(--primary-light);border:2px dashed var(--primary);border-radius:var(--radius-sm);padding:11px;text-align:center;margin-bottom:8px}
+.invite-code{font-size:1.2rem;font-weight:800;color:var(--primary);letter-spacing:3px}.invite-code-label{font-size:.68rem;color:var(--text2);margin-top:2px}
+.delete-pot-btn{text-align:center;padding:8px 14px 18px}
+.delete-pot-btn button{background:none;border:none;color:var(--danger);font-size:.75rem;cursor:pointer;padding:4px 12px;border-radius:var(--radius-xs);font-weight:500;transition:background .2s}
+.delete-pot-btn button:hover{background:#FDEDEC}
+.fab{position:fixed;bottom:80px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--primary);color:#fff;border:none;font-size:1.25rem;cursor:pointer;box-shadow:0 5px 18px rgba(255,107,53,.35);transition:transform .15s;display:flex;align-items:center;justify-content:center;z-index:100}
+.fab:hover{transform:translateY(-2px)}.fab:active{transform:scale(.93)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:1px solid var(--nav-border);display:flex;padding:4px 0 8px;z-index:200;transition:background .3s,border-color .3s}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;background:none;cursor:pointer;padding:3px 0;color:var(--text3);transition:color .2s;font-size:.6rem;font-weight:500}
+.nav-item .nav-icon{font-size:1.1rem}.nav-item.active{color:var(--primary)}.nav-item:hover{color:var(--primary)}
+.page{display:none}.page.active{display:block;animation:pageIn .25s}
+.settings-group{margin-bottom:16px}
+.settings-group-title{font-size:.7rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;padding:0 14px}
+.settings-item{background:var(--card);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.settings-item:first-child{border-radius:var(--radius-sm)var(--radius-sm)0 0}.settings-item:last-child{border-radius:0 0 var(--radius-sm)var(--radius-sm);border-bottom:none}
+.settings-label{font-size:.8rem;font-weight:500}.settings-value{font-size:.75rem;color:var(--text2)}.btn-danger-text{color:var(--danger)!important}
+.theme-toggle{display:flex;gap:5px}.theme-btn{padding:3px 11px;border-radius:13px;border:1.5px solid var(--border);background:transparent;font-size:.7rem;font-weight:500;cursor:pointer;transition:all .2s;color:var(--text2)}
+.theme-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.member-card{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--border)}.member-card:last-child{border-bottom:none}
+.member-avatar-lg{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#fff;flex-shrink:0}
+.member-info{flex:1;min-width:0}.member-info .member-name{font-size:.8rem;font-weight:600}
+.member-info .member-role{font-size:.65rem;color:var(--text3)}.member-info .member-joined{font-size:.6rem;color:var(--text3)}
+.member-remove-btn{width:24px;height:24px;border-radius:50%;border:none;background:#FDEDEC;color:var(--danger);font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.admin-section{padding:0 14px;margin-top:12px}.admin-table-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border)}
+.admin-table{width:100%;border-collapse:collapse;font-size:.75rem;background:var(--card)}
+.admin-table th{background:var(--bg);padding:7px 9px;text-align:left;font-weight:600;color:var(--text2);font-size:.7rem;border-bottom:1px solid var(--border);white-space:nowrap}
+.admin-table td{padding:7px 9px;border-bottom:1px solid var(--border);color:var(--text)}.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:rgba(255,107,53,.03)}.admin-badge{display:inline-block;padding:1px 5px;border-radius:3px;font-size:.6rem;font-weight:600}
+.admin-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+.admin-stat-box{background:var(--card);padding:12px;border-radius:var(--radius-sm);text-align:center}
+.admin-stat-box .big-num{font-size:1.3rem;font-weight:800;color:var(--primary)}
+.admin-stat-box .stat-label{font-size:.68rem;color:var(--text2);margin-top:2px}
+.share-card-overlay{position:fixed;inset:0;z-index:10000;background:var(--overlay);display:none;align-items:center;justify-content:center}
+.share-card-overlay.active{display:flex}.share-card{width:280px;background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.share-card-header{padding:18px 18px 10px;color:#fff;text-align:center}.share-card-icon{font-size:1.8rem;margin-bottom:3px}
+.share-card-name{font-size:1.05rem;font-weight:700}.share-card-target{font-size:.72rem;opacity:.8}
+.share-card-amount{font-size:2rem;font-weight:800;letter-spacing:-1px;margin:6px 0 2px}.share-card-sub{font-size:.68rem;opacity:.7;margin-bottom:6px}
+.share-card-body{padding:12px 18px}.share-card-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.share-card-fill{height:100%;border-radius:3px}.share-card-pct{text-align:center;font-size:1.1rem;font-weight:800;color:var(--primary);margin-bottom:2px}
+.share-card-stat{text-align:center;font-size:.68rem;color:var(--text2);margin-bottom:8px}
+.share-card-footer{text-align:center;font-size:.6rem;color:var(--text3);padding:8px 18px;border-top:1px solid var(--border)}
+.share-card-footer img{height:18px;vertical-align:middle;border-radius:3px;margin-right:3px}
+.share-card-close{position:absolute;top:-36px;right:0;background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:.75rem;cursor:pointer}
+.cat-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.62rem;font-weight:600;margin-left:3px}
+.qr-modal-content{text-align:center;padding:6px 0}
+.qr-code-img{width:200px;height:200px;border-radius:12px;margin:8px auto;display:block;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.qr-modal-content .qr-hint{font-size:.78rem;color:var(--text3);margin-bottom:10px}
+.qr-confirm-btn{width:100%;padding:12px;background:var(--success);color:#fff;border:none;border-radius:var(--radius-sm);font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s}
+.qr-confirm-btn:hover{background:#27AE60}
+.qr-amount-input{width:100%;padding:12px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:1.2rem;font-weight:700;text-align:center;font-family:inherit;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px;transition:border-color .2s}
+.qr-amount-input:focus{border-color:var(--primary)}
+.qr-quick-amounts{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.qr-quick-btn{padding:5px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text2)}
+.qr-quick-btn:hover,.qr-quick-btn.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
+.real-share-btn{display:flex;align-items:center;gap:4px;font-size:.72rem;color:var(--primary);font-weight:600;cursor:pointer;background:none;border:none;padding:3px 7px;border-radius:var(--radius-xs);transition:background .2s}
+.real-share-btn:hover{background:rgba(255,107,53,.1)}
+.budget-section{margin:12px 14px}
+.budget-card{background:var(--card);border-radius:var(--radius);padding:10px 12px;margin-bottom:6px;box-shadow:var(--card-shadow)}
+.budget-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.budget-cat{font-weight:600;font-size:.82rem}
+.budget-amounts{font-size:.7rem;color:var(--text2)}
+.budget-amounts .used{font-weight:700}
+.budget-amounts .used.exceed{color:var(--danger)}
+.budget-amounts .total{color:var(--text3)}
+.budget-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:2px}
+.budget-bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.budget-bar-fill.warn{background:var(--warning)}
+.budget-bar-fill.exceed{background:var(--danger)}
+.budget-bar-fill.ok{background:var(--primary)}
+@media(min-width:640px){
+  .app-header{padding:20px 40px 28px}
+  .brand-bar,.search-bar,.section,.filter-tabs,.pot-detail-actions,.pot-detail-progress,.delete-pot-btn,.chart-section,.members-section,.settings-group-title,.settings-item,.admin-section,.filter-bar{padding-left:40px;padding-right:40px}
+  .pot-detail-progress{margin-left:40px;margin-right:40px}
+  .bottom-nav{max-width:500px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}
+  .balance-amount{font-size:2.8rem}.quick-stats,.tag-filter,.search-bar{padding-left:40px;padding-right:40px}
+  .fab{right:calc(50% - 230px)}
+}
+@media(min-width:1024px){
+  body{background:#E8E8F0;padding-bottom:0}[data-theme=dark] body{background:#0a0a14}
+  #app{max-width:500px;margin:0 auto;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08);position:relative;background:var(--bg)}
+  .app-header{border-radius:0;padding:24px 40px 30px}
+  .bottom-nav{max-width:500px}
+  .balance-amount{font-size:3rem}
+  .login-page{max-width:500px;margin:0 auto;border-radius:0 0 16px 16px}
+  .login-card{max-width:370px}
+  .splash-screen{max-width:500px;left:50%;transform:translateX(-50%);right:auto;height:100vh;border-radius:0 0 16px 16px}
+  .splash-screen.hidden{transform:translateX(-50%) scale(1.1)}
+  .pot-detail-view{max-width:500px;left:50%;transform:translateX(-50%);right:auto;top:10px;bottom:10px;height:auto;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+  @keyframes pageInDesktop{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  .pot-detail-view.active{animation:pageInDesktop .25s}
+  .modal-overlay{align-items:center}
+  .modal{max-width:420px;border-radius:var(--radius);margin:14px}
+  .fab{right:calc(50% - 230px)}
+}
+.page#pageSettings .app-header,.page#pageRecords .app-header,.page#pageAdmin .app-header,.page#pageReal .app-header{padding-bottom:16px}
+</style>
+</head>
+<body>
+<div class="splash-screen" id="splashScreen">
+  <div class="splash-particles"><div class="splash-particle"></div><div class="splash-particle"></div><div class="splash-particle"></div><div class="splash-particle"></div><div class="splash-particle"></div></div>
+  <div class="splash-logo"><img src="logo.jpg?v=1" alt="飞创未来"></div>
+  <div class="splash-title">小荷包</div>
+  <div class="splash-sub">飞创未来科技工作室</div>
+  <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+  <div id="splashStatus" style="margin-top:20px;font-size:.78rem;color:rgba(255,255,255,.6);letter-spacing:1px">正在加载中...</div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="login-logo"><img src="logo.jpg?v=20260611" alt="飞创未来"></div>
+    <div class="login-brand">飞创未来科技工作室</div>
+    <div class="login-title" id="loginFormTitle">登录</div>
+    <div class="login-sub" id="loginFormSub">登录你的小荷包账户</div>
+    <div class="login-error" id="loginError"></div>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div id="loginNameGroup" class="login-input-group" style="display:none"><span class="input-icon">👤</span><input class="login-input" id="regName"></div>
+      <div class="login-input-group"><span class="input-icon">📧</span><input class="login-input" id="loginUser" required></div>
+      <div class="login-input-group"><span class="input-icon">🔒</span><input class="login-input" id="loginPass" type="password" required></div>
+      <button class="login-btn" id="loginBtn" type="submit">登录</button>
+    </form>
+    <div class="login-toggle"><span id="loginToggleText">还没有账号？</span><a id="loginToggleLink" onclick="toggleAuthMode()">注册账号</a></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+
+<div class="page active" id="pageHome">
+  <div class="app-header">
+    <div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div>
+    <div class="header-top"><h1>💰 小荷包</h1><div class="header-actions"><span class="header-user" id="headerUser"></span><button class="header-btn" onclick="showModal('settingsModal')">⚙️</button></div></div>
+    <div class="mode-switcher"><button class="mode-btn active" onclick="switchMode('virtual')">🎮 虚拟记账</button><button class="mode-btn" onclick="switchMode('real')">💵 真实记账</button></div>
+    <div class="balance-card"><div class="balance-label">总资产（虚拟）</div><div class="balance-amount"><span class="currency">¥</span><span id="totalBalance">0.00</span></div><div class="balance-sub" id="totalProgress">储蓄进度 · 0%</div></div>
+  </div>
+  <div class="quick-stats">
+    <div class="stat-card"><div class="stat-icon">🏦</div><div class="stat-value" id="statPots">0</div><div class="stat-label">荷包</div></div>
+    <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-value" id="statTarget">¥0</div><div class="stat-label">总目标</div></div>
+    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="statRate">0%</div><div class="stat-label">达成率</div></div>
+    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value" id="statMembers">0</div><div class="stat-label">成员</div></div>
+  </div>
+  <div class="search-bar"><span class="search-icon">🔍</span><input id="searchInput" placeholder="搜索荷包名称或标签..." oninput="renderHome()"></div>
+  <div class="tag-filter" id="tagFilter"></div>
+  <div class="section"><div class="section-header"><span class="section-title">我的荷包</span><div><button class="section-action" onclick="openCreatePot()">+ 新建</button><button class="section-toggle" id="archiveToggleBtn" onclick="toggleArchiveView()" style="margin-left:3px">📦 归档</button></div></div><div id="potList"></div></div>
+</div>
+
+<button class="fab" id="mainFab" onclick="onFabClick()">+</button>
+
+<div class="bottom-nav" id="bottomNavVirtual">
+  <button class="nav-item active" data-page="pageHome" onclick="switchPage('pageHome')"><span class="nav-icon">🏠</span>首页</button>
+  <button class="nav-item" data-page="pageRecords" onclick="switchPage('pageRecords')"><span class="nav-icon">📋</span>流水</button>
+  <button class="nav-item" data-page="pageStats" onclick="switchPage('pageStats')"><span class="nav-icon">📈</span>统计</button>
+  <button class="nav-item" data-page="pageSettings" onclick="switchPage('pageSettings')"><span class="nav-icon">⚙️</span>设置</button>
+</div>
+<div class="bottom-nav" id="bottomNavReal" style="display:none">
+  <button class="nav-item active" data-page="pageReal" onclick="switchPage('pageReal')"><span class="nav-icon">💰</span>资产</button>
+  <button class="nav-item" data-page="pageRealTransactions" onclick="switchPage('pageRealTransactions')"><span class="nav-icon">📋</span>流水</button>
+  <button class="nav-item" data-page="pageRealStats" onclick="switchPage('pageRealStats')"><span class="nav-icon">📈</span>报表</button>
+  <button class="nav-item" data-page="pageSettings" onclick="switchPage('pageSettings')"><span class="nav-icon">⚙️</span>设置</button>
+</div>
+
+<!-- ===== Virtual pages ===== -->
+<div class="page" id="pageRecords">
+  <div class="app-header"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><h1>📋 虚拟流水</h1></div></div>
+  <div class="filter-bar"><div class="filter-search"><span class="fs-icon">🔍</span><input id="recordSearch" placeholder="搜索备注..." oninput="renderRecords()"></div></div>
+  <div class="filter-tabs" id="recordFilterTabs"><button class="filter-tab active" data-filter="all" onclick="filterRecords('all')">全部</button><button class="filter-tab" data-filter="deposit" onclick="filterRecords('deposit')">存入</button><button class="filter-tab" data-filter="withdraw" onclick="filterRecords('withdraw')">支出</button><button class="filter-tab" data-filter="auto-deposit" onclick="filterRecords('auto-deposit')">自动存</button></div>
+  <div class="section" style="margin-top:6px"><div id="recordList"></div><div class="empty-state" id="recordEmpty" style="display:none"><div class="empty-icon">📭</div><h3>暂无交易记录</h3></div></div>
+</div>
+
+<div class="page" id="pageReal">
+  <div class="app-header">
+    <div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div>
+    <div class="header-top"><h1>💰 真实资产</h1><div class="header-actions"><span class="header-user" id="headerUser2"></span><button class="header-btn" onclick="showModal('settingsModal')">⚙️</button></div></div>
+    <div class="mode-switcher"><button class="mode-btn" onclick="switchMode('virtual')">🎮 虚拟记账</button><button class="mode-btn active" onclick="switchMode('real')">💵 真实记账</button></div>
+    <div class="balance-card"><div class="balance-label">总资产（真实）</div><div class="balance-amount"><span class="currency">¥</span><span id="realTotalBalance">0.00</span></div><div class="balance-sub" id="realTotalSub">0个账户 · 本月支出 ¥0.00</div></div>
+  </div>
+  <div class="quick-stats">
+    <div class="stat-card"><div class="stat-icon">🏦</div><div class="stat-value" id="realStatAccounts">0</div><div class="stat-label">账户</div></div>
+    <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value" id="realStatIncome">¥0</div><div class="stat-label">本月收入</div></div>
+    <div class="stat-card"><div class="stat-icon">📉</div><div class="stat-value" id="realStatExpense">¥0</div><div class="stat-label">本月支出</div></div>
+    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="realStatNet">¥0</div><div class="stat-label">收支差</div></div>
+  </div>
+  <div class="section"><div class="section-header"><span class="section-title">💳 我的账户</span><div><button class="real-share-btn" onclick="openRealShareCard()">📤 分享</button><button class="section-action" onclick="openAddAccount()">+ 添加</button></div></div><div id="accountList"></div></div>
+  <div class="section" id="budgetWidget"></div>
+</div>
+
+<div class="page" id="pageRealTransactions">
+  <div class="app-header"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><h1>📋 真实流水</h1></div></div>
+  <div class="filter-bar"><div class="filter-search"><span class="fs-icon">🔍</span><input id="realRecordSearch" placeholder="搜索备注或分类..." oninput="renderRealRecords()"></div></div>
+  <div class="filter-tabs" id="realRecordFilterTabs"><button class="filter-tab active" data-filter="all" onclick="filterRealRecords('all')">全部</button><button class="filter-tab" data-filter="income" onclick="filterRealRecords('income')">收入</button><button class="filter-tab" data-filter="expense" onclick="filterRealRecords('expense')">支出</button><button class="filter-tab" data-filter="transfer" onclick="filterRealRecords('transfer')">转账</button></div>
+  <div class="section" style="margin-top:6px"><div id="realRecordList"></div><div class="empty-state" id="realRecordEmpty" style="display:none"><div class="empty-icon">📭</div><h3>暂无记录</h3></div></div>
+</div>
+
+<div class="page" id="pageStats">
+  <div class="app-header"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><h1>📈 虚拟统计</h1></div></div>
+  <div class="section" style="margin-top:12px"><div class="chart-card"><div class="chart-title">📈 月度储蓄趋势</div><div class="chart-wrap"><canvas id="trendChart"></canvas></div></div></div>
+  <div class="section" style="margin-top:8px"><div class="chart-card"><div class="chart-title">🥧 荷包资产分布</div><div class="chart-wrap"><canvas id="distChart"></canvas></div></div></div>
+  <div class="section" style="margin-top:8px"><div class="section-header"><span class="section-title">⏰ 自动存款计划</span></div><div id="autoPlanList"></div><div class="empty-state" id="autoPlanEmpty" style="display:none"><div class="empty-icon">⏰</div><h3>暂无</h3></div></div>
+</div>
+
+<div class="page" id="pageRealStats">
+  <div class="app-header"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><h1>📈 真实报表</h1></div></div>
+  <div class="filter-tabs" style="padding: 6px 14px 0" id="realStatTimeTabs"><button class="filter-tab active" data-d="m" onclick="switchRealStatDim('m')">月度</button><button class="filter-tab" data-d="y" onclick="switchRealStatDim('y')">年度</button></div>
+  <div class="section" style="margin-top:8px"><div class="chart-card"><div class="chart-title">📊 收支趋势</div><div class="chart-wrap"><canvas id="realTrendChart"></canvas></div></div></div>
+  <div class="section" style="margin-top:8px"><div class="chart-card"><div class="chart-title">🥧 支出分类分析</div><div class="chart-wrap"><canvas id="realCatChart"></canvas></div></div></div>
+  <div class="section" style="margin-top:8px"><div class="chart-card"><div class="chart-title">💳 账户资产分布</div><div class="chart-wrap"><canvas id="realAccChart"></canvas></div></div></div>
+  <div class="section" style="margin-top:8px"><div id="expenseRanking"></div></div>
+</div>
+
+<div class="page" id="pageSettings">
+  <div class="app-header"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><h1>⚙️ 设置</h1></div></div>
+  <div style="margin-top:12px">
+    <div class="settings-group"><div class="settings-group-title">账号</div>
+      <div class="settings-item"><span class="settings-label">当前账号</span><span class="settings-value" id="settingsUsername"></span></div>
+      <div class="settings-item" style="border-radius:0"><span class="settings-label">昵称</span><span class="settings-value" id="settingsNickname"></span></div>
+      <div class="settings-item" style="border-radius:0 0 var(--radius-sm)var(--radius-sm)"><span class="settings-label">退出登录</span><button class="section-action btn-danger-text" onclick="logout()">退出</button></div>
+    </div>
+    <div class="settings-group"><div class="settings-group-title">个性化</div>
+      <div class="settings-item" style="border-radius:var(--radius-sm)"><span class="settings-label">🌓 主题模式</span>
+        <div class="theme-toggle"><button class="theme-btn active" id="themeLightBtn" onclick="setTheme('light')">☀️ 浅色</button><button class="theme-btn" id="themeDarkBtn" onclick="setTheme('dark')">🌙 深色</button></div>
+      </div>
+      <div class="settings-item" style="border-radius:0 0 var(--radius-sm)var(--radius-sm)"><span class="settings-label">🔊 语音播报</span>
+        <div class="theme-toggle"><button class="theme-btn voice-toggle-btn active" data-voice="on" onclick="toggleVoice(true)">🔊 开</button><button class="theme-btn voice-toggle-btn" data-voice="off" onclick="toggleVoice(false)">🔇 关</button><button class="theme-btn" onclick="speakGreeting()" style="font-size:.7rem;padding:4px 8px">▶️ 测试</button></div>
+      </div>
+    </div>
+    <div class="settings-group"><div class="settings-group-title">数据</div>
+      <div class="settings-item"><span class="settings-label">💰 预算管理</span><button class="section-action" onclick="openBudgetModal()">设置</button></div>
+      <div class="settings-item"><span class="settings-label">📊 数据后台</span><button class="section-action" onclick="switchPage('pageAdmin')">查看</button></div>
+      <div class="settings-item"><span class="settings-label">📤 导出 JSON</span><button class="section-action" onclick="exportData()">导出</button></div>
+      <div class="settings-item"><span class="settings-label">📄 导出 CSV</span><button class="section-action" onclick="exportCSV()">导出</button></div>
+      <div class="settings-item"><span class="settings-label">📥 导入数据</span><button class="section-action" onclick="document.getElementById('importFile').click()">导入 JSON</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"></div>
+      <div class="settings-item" style="border-radius:0 0 var(--radius-sm)var(--radius-sm)"><span class="settings-label">🗑️ 重置数据</span><button class="section-action btn-danger-text" onclick="confirmReset()">清空</button></div>
+    </div>
+    <div class="settings-group"><div class="settings-group-title">关于</div>
+      <div class="settings-item" style="border-radius:var(--radius-sm)"><span class="settings-label">小荷包 · 飞创未来</span><span class="settings-value">v2.3</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pageAdmin">
+  <div class="app-header" style="padding-bottom:12px"><div class="brand-bar"><img class="brand-logo" src="logo.jpg?v=20260611" alt="飞创未来"><span class="brand-text">飞创未来科技工作室</span></div><div class="header-top"><button style="background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:18px;font-size:.75rem;cursor:pointer" onclick="switchPage('pageSettings')">← 返回</button><h1 style="font-size:1.1rem">📊 数据后台</h1></div></div>
+  <div class="admin-section" id="adminContent"></div>
+</div>
+
+<div class="pot-detail-view" id="potDetailView">
+  <div class="pot-detail-header" id="detailHeader">
+    <button class="back-btn" onclick="closePotDetail()">←</button><button class="more-btn" onclick="showPotMenu()">⋯</button>
+    <div class="pot-detail-icon" id="detailIcon">💰</div><div class="pot-detail-name" id="detailName">荷包名称</div>
+    <div class="pot-detail-target" id="detailTarget">目标 ¥0.00</div><div class="pot-detail-amount">¥<span id="detailBalance">0.00</span></div><div class="pot-detail-sub" id="detailSub">已存金额</div>
+  </div>
+  <div class="pot-detail-progress"><div class="progress-ring-row"><div class="ring-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/><circle id="detailRing" cx="40" cy="40" r="34" fill="none" stroke="#FF6B35" stroke-width="6" stroke-linecap="round" stroke-dasharray="213.63"/></svg></div><div class="progress-info"><div class="progress-pct" id="detailPct">0%</div><div class="progress-pct-label">目标达成</div><div class="progress-meta">¥<span id="detailRemaining">0</span> · 剩余目标</div></div></div></div>
+  <div class="pot-detail-actions"><button class="action-btn" style="background:var(--primary);color:#fff" onclick="openTransaction('deposit')">💰 存入</button><button class="action-btn" style="background:var(--bg);color:var(--text)" onclick="openTransaction('withdraw')">💸 取出</button><button class="action-btn" style="background:#FEF5E7;color:#D68910" onclick="openInviteMember()">👥 邀请</button></div>
+  <div class="members-section"><div id="detailMembers"></div></div>
+  <div class="section" style="margin-top:8px"><div class="section-header"><span class="section-title">🎯 里程碑</span><button class="section-action" onclick="openAddMilestone()">+ 添加</button></div><div id="detailMilestones"></div><div class="empty-state" id="detailMsEmpty" style="display:none;padding:14px 0"><div class="empty-icon" style="font-size:1.6rem">🏆</div><h3>暂无里程碑</h3></div></div>
+  <div class="section" style="margin-top:4px"><div class="section-header"><span class="section-title">⏰ 自动存款</span><button class="section-action" onclick="openAddAutoPlan()">+ 设置</button></div><div id="detailAutoPlan"></div></div>
+  <div class="section" style="margin-top:4px"><div class="section-header"><span class="section-title">交易记录</span><button class="section-action" onclick="openShareCard()">📤 分享</button></div><div id="detailRecordList"></div><div class="empty-state" id="detailRecordEmpty" style="display:none;padding:14px 0"><div class="empty-icon" style="font-size:1.6rem">📭</div><h3>暂无记录</h3></div></div>
+  <div class="delete-pot-btn"><button onclick="confirmDeletePot()">🗑️ 删除此荷包</button></div>
+</div>
+
+<div class="share-card-overlay" id="shareCardOverlay">
+  <div style="position:relative"><button class="share-card-close" onclick="closeShareCard()">✕</button>
+    <div class="share-card"><div class="share-card-header" id="shareCardHeader" style="background:linear-gradient(135deg,var(--primary),#E55D2B)"><div class="share-card-icon" id="shareIcon">💰</div><div class="share-card-name" id="shareName">荷包</div><div class="share-card-target" id="shareTarget">目标 ¥0</div><div class="share-card-amount" id="shareAmount">¥0</div><div class="share-card-sub">已存金额</div></div>
+    <div class="share-card-body"><div class="share-card-bar"><div class="share-card-fill" id="shareBarFill" style="width:0%"></div></div><div class="share-card-pct" id="sharePct">0%</div><div class="share-card-stat" id="shareStat">还差 ¥0</div></div>
+    <div class="share-card-footer"><img src="logo.jpg?v=20260611" alt="">飞创未来 · 小荷包</div></div>
+    <div style="text-align:center;margin-top:10px"><button onclick="toast('💡 截图保存即可分享')" style="background:var(--primary);color:#fff;border:none;padding:9px 24px;border-radius:18px;font-size:.8rem;font-weight:600;cursor:pointer">📸 截图分享</button></div>
+  </div>
+</div>
+
+<div class="share-card-overlay" id="realShareOverlay">
+  <div style="position:relative"><button class="share-card-close" onclick="closeRealShareCard()">✕</button>
+    <div class="share-card"><div class="share-card-header" id="realShareHeader" style="background:linear-gradient(135deg,#07C160,#05974E)"><div class="share-card-icon" id="realShareIcon">💰</div><div class="share-card-name" id="realShareName">真实资产总览</div><div class="share-card-target" id="realShareSub">资产总览</div><div class="share-card-amount" id="realShareAmount">¥0</div><div class="share-card-sub">总资产</div></div>
+    <div class="share-card-body">
+      <div style="text-align:center;margin:6px 0">
+        <img src="wechat_pay_qr.jpg?v=1" style="width:160px;height:160px;border-radius:10px;display:block;margin:0 auto;box-shadow:0 2px 12px rgba(0,0,0,.1)">
+        <div style="font-size:.65rem;color:var(--text3);margin-top:4px">扫码向我付款</div>
+      </div>
+      <div style="display:flex;justify-content:space-around;text-align:center;margin:6px 0;font-size:.72rem">
+        <div><div id="realShareInc" style="font-weight:700;color:#1A9E5C">¥0</div><div style="color:var(--text3)">本月收入</div></div>
+        <div><div id="realShareExp" style="font-weight:700;color:#E74C3C">¥0</div><div style="color:var(--text3)">本月支出</div></div>
+        <div><div id="realShareAcc" style="font-weight:700;color:var(--text)">0</div><div style="color:var(--text3)">账户数</div></div>
+      </div>
+    </div>
+    <div class="share-card-footer"><img src="logo.jpg?v=20260611" alt="">飞创未来 · 小荷包</div></div>
+    <div style="text-align:center;margin-top:10px"><button onclick="toast('💡 截图保存即可分享')" style="background:#07C160;color:#fff;border:none;padding:9px 24px;border-radius:18px;font-size:.8rem;font-weight:600;cursor:pointer">📸 截图分享</button></div>
+  </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay" id="potModal"><div class="modal"><div class="modal-header"><h2 id="potModalTitle">新建荷包</h2><button class="modal-close" onclick="closeModal('potModal')">✕</button></div>
+  <form id="potForm" onsubmit="savePot(event)"><input type="hidden" id="editPotId">
+    <div class="form-group"><label class="form-label">荷包名称</label><input class="form-input" id="potName" required></div>
+    <div class="form-group"><label class="form-label">目标金额 (¥)</label><input class="form-input" id="potTarget" type="number" min="1" required></div>
+    <div class="form-group"><label class="form-label">备注说明</label><textarea class="form-textarea" id="potNote" rows="2"></textarea></div>
+    <div class="form-group"><label class="form-label">标签</label><input class="form-input" id="potTags" placeholder="逗号分隔"></div>
+    <div class="form-group"><label class="form-label">图标</label><div class="icon-grid" id="iconPicker"></div></div>
+    <div class="form-group"><label class="form-label">颜色</label><div class="color-grid" id="colorPicker"></div></div>
+    <button type="submit" class="action-btn" style="width:100%;background:var(--primary);color:#fff;border:none;padding:11px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;cursor:pointer">创建荷包</button>
+  </form>
+</div></div>
+
+<div class="modal-overlay center" id="txModal"><div class="modal center-mode">
+  <div class="modal-header"><h2 id="txModalTitle">💰 存入</h2><button class="modal-close" onclick="closeModal('txModal')">✕</button></div>
+  <form id="txForm" onsubmit="saveTransaction(event)"><input type="hidden" id="txType">
+    <div style="text-align:center;margin-bottom:8px"><span id="txPotDisplay" style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg);border-radius:14px;font-size:.8rem"></span></div>
+    <div class="form-group"><label class="form-label">金额 (¥)</label><div class="quick-amounts" id="quickAmounts"></div><input class="form-input form-input-lg" id="txAmount" type="number" min="0.01" step="0.01" required autofocus></div>
+    <div class="form-group"><label class="form-label">备注</label><input class="form-input" id="txNote"></div>
+    <button type="submit" class="action-btn" id="txSubmitBtn" style="width:100%;border:none;padding:11px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;cursor:pointer">确认存入</button>
+  </form>
+</div></div>
+
+<div class="modal-overlay center" id="inviteModal"><div class="modal center-mode"><div class="modal-header"><h2>👥 邀请成员</h2><button class="modal-close" onclick="closeModal('inviteModal')">✕</button></div><div id="inviteContent"></div></div></div>
+<div class="modal-overlay center" id="msModal"><div class="modal center-mode">
+  <div class="modal-header"><h2>🎯 里程碑</h2><button class="modal-close" onclick="closeModal('msModal')">✕</button></div>
+  <form id="msForm" onsubmit="saveMilestone(event)"><input type="hidden" id="editMsId"><div class="form-group"><label class="form-label">名称</label><input class="form-input" id="msName" required></div><div class="form-group"><label class="form-label">目标金额 (¥)</label><input class="form-input" id="msTarget" type="number" min="1" required></div><button type="submit" class="action-btn" style="width:100%;background:var(--primary);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer">添加</button></form></div></div>
+<div class="modal-overlay center" id="autoPlanModal"><div class="modal center-mode">
+  <div class="modal-header"><h2>⏰ 自动存款</h2><button class="modal-close" onclick="closeModal('autoPlanModal')">✕</button></div>
+  <form id="autoPlanForm" onsubmit="saveAutoPlan(event)"><input type="hidden" id="editPlanId"><div class="form-group"><label class="form-label">每次金额 (¥)</label><input class="form-input" id="planAmount" type="number" min="1" required></div><div class="form-group"><label class="form-label">频率</label><select class="form-select" id="planFreq"><option value="daily">每天</option><option value="weekly">每周</option><option value="monthly" selected>每月</option></select></div><div class="form-group"><label class="form-label">备注</label><input class="form-input" id="planNote"></div><button type="submit" class="action-btn" style="width:100%;background:var(--primary);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer">保存</button></form></div></div>
+<div class="modal-overlay center" id="potMenuModal"><div class="modal center-mode" style="max-width:250px;padding:8px 12px">
+  <div style="text-align:center;padding:4px 0 8px;border-bottom:1px solid var(--border)"><div id="menuPotIcon" style="font-size:1.2rem"></div><div id="menuPotName" style="font-size:.82rem;font-weight:600"></div></div>
+  <div onclick="closeModal('potMenuModal');showModal('potModal')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">✏️ 编辑</div>
+  <div onclick="closeModal('potMenuModal');openDuplicatePot()" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📋 复制</div>
+  <div onclick="closeModal('potMenuModal');showModal('inviteModal')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">👥 邀请</div>
+  <div onclick="closeModal('potMenuModal');showModal('autoPlanModal')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">⏰ 自动存</div>
+  <div onclick="closeModal('potMenuModal');showModal('msModal')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">🎯 里程碑</div>
+  <div onclick="closeModal('potMenuModal');openShareCard()" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📤 分享</div>
+  <div id="archiveMenuBtn" onclick="closeModal('potMenuModal');toggleArchivePot()" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📦 归档</div>
+  <div onclick="closeModal('potMenuModal');confirmDeletePot()" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--danger);border-top:1px solid var(--border);margin-top:3px;padding-top:9px">🗑️ 删除</div>
+</div></div>
+
+<div class="modal-overlay center" id="addAccModal"><div class="modal center-mode"><div class="modal-header"><h2 id="accModalTitle">💳 添加账户</h2><button class="modal-close" onclick="closeModal('addAccModal')">✕</button></div>
+  <form id="accForm" onsubmit="saveAccount(event)"><input type="hidden" id="editAccId"><div class="form-group"><label class="form-label">账户名称</label><input class="form-input" id="accName" required></div>
+  <div class="form-group"><label class="form-label">账户类型</label><select class="form-select" id="accType"><option value="wechat">💚 微信</option><option value="alipay">💙 支付宝</option><option value="bank">🏦 银行卡</option><option value="cash">💵 现金</option><option value="other">📦 其他</option></select></div>
+  <div class="form-group"><label class="form-label">图标</label><div class="icon-grid" id="accIconPicker"></div></div>
+  <div class="form-group"><label class="form-label">颜色</label><div class="color-grid" id="accColorPicker"></div></div>
+  <div class="form-group"><label class="form-label">初始余额 (¥)</label><input class="form-input" id="accBalance" type="number" step="0.01" value="0"></div>
+  <button type="submit" class="action-btn" style="width:100%;background:var(--primary);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer">保存</button></form></div></div>
+
+<div class="modal-overlay center" id="realTxModal"><div class="modal center-mode"><div class="modal-header"><h2 id="realTxTitle">📝 记一笔</h2><button class="modal-close" onclick="closeModal('realTxModal')">✕</button></div>
+  <form id="realTxForm" onsubmit="saveRealTx(event)"><input type="hidden" id="realTxType">
+    <div style="display:flex;gap:6px;margin-bottom:12px"><button type="button" class="action-btn" id="rtIncomeBtn" style="background:var(--success);color:#fff" onclick="setRealTxType('income')">📈 收入</button><button type="button" class="action-btn" id="rtExpenseBtn" style="background:var(--bg);color:var(--text)" onclick="setRealTxType('expense')">📉 支出</button><button type="button" class="action-btn" id="rtTransferBtn" style="background:var(--bg);color:var(--text)" onclick="setRealTxType('transfer')">🔄 转账</button></div>
+    <div class="form-group"><label class="form-label">金额 (¥)</label><input class="form-input form-input-lg" id="realTxAmount" type="number" min="0.01" step="0.01" required></div>
+    <div class="form-row"><div class="form-group" id="realTxAccFrom"><label class="form-label">账户</label><select class="form-select" id="realTxAccount"></select></div><div class="form-group" id="realTxAccTo" style="display:none"><label class="form-label">转入账户</label><select class="form-select" id="realTxToAccount"></select></div></div>
+    <div class="form-group" id="realTxCatGroup"><label class="form-label">分类</label><select class="form-select" id="realTxCategory"></select></div>
+    <div class="form-group"><label class="form-label">备注</label><input class="form-input" id="realTxNote"></div>
+    <button type="submit" class="action-btn" id="realTxBtn" style="width:100%;background:var(--success);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer">确认记账</button>
+  </form>
+</div></div>
+
+<div class="modal-overlay center" id="accMenuModal"><div class="modal center-mode" style="max-width:230px;padding:8px 12px"><div id="accMenuContent"></div></div></div>
+<div class="modal-overlay center" id="confirmModal"><div class="confirm-dialog"><h3 id="confirmTitle">确认</h3><p id="confirmText">确定要执行此操作吗？</p><div class="confirm-btns"><button class="btn-cancel" onclick="closeModal('confirmModal')">取消</button><button class="btn-danger" id="confirmActionBtn" onclick="executeConfirm()">确认</button></div></div></div>
+<div class="modal-overlay center" id="wechatQrModal"><div class="modal center-mode" style="max-width:340px">
+  <div class="modal-header"><h2>🧾 微信收款</h2><button class="modal-close" onclick="closeModal('wechatQrModal')">✕</button></div>
+  <div class="qr-modal-content">
+    <div style="font-size:.82rem;color:var(--text2);margin-bottom:6px" id="qrAccDisplay"></div>
+    <input class="qr-amount-input" id="qrAmount" type="number" min="0.01" step="0.01" placeholder="输入收款金额...">
+    <div class="qr-quick-amounts" id="qrQuickAmounts"></div>
+    <img class="qr-code-img" src="wechat_pay_qr.jpg?v=1" alt="微信收款码">
+    <div class="qr-hint">💡 让对方扫码付款，付款后点击下方确认</div>
+    <button class="qr-confirm-btn" onclick="confirmWechatCollect()">✅ 我已付款，确认到账</button>
+    <div style="margin-top:8px;font-size:.7rem;color:var(--text3)">确认后自动记录一笔收入到该账户</div>
+  </div>
+</div></div>
+
+<!-- Budget Modal -->
+<div class="modal-overlay center" id="budgetModal"><div class="modal center-mode" style="max-width:340px">
+  <div class="modal-header"><h2>💰 预算管理</h2><button class="modal-close" onclick="closeModal('budgetModal')">✕</button></div>
+  <div id="budgetList" style="max-height:60vh;overflow-y:auto"></div>
+</div></div>
+
+<!-- Payment Request Overlay -->
+<div class="share-card-overlay" id="payReqOverlay">
+  <div style="position:relative"><button class="share-card-close" onclick="closePayReq()">✕</button>
+    <div class="share-card"><div class="share-card-header" id="payReqHeader" style="background:linear-gradient(135deg,#07C160,#05974E)"><div class="share-card-icon">🧾</div><div class="share-card-name" id="payReqTitle">收款请求</div><div class="share-card-target" id="payReqDesc">请扫码付款</div><div class="share-card-amount" id="payReqAmount">¥0</div><div class="share-card-sub">收款金额</div></div>
+    <div class="share-card-body">
+      <img src="wechat_pay_qr.jpg?v=1" style="width:160px;height:160px;border-radius:10px;display:block;margin:6px auto;box-shadow:0 2px 12px rgba(0,0,0,.1)">
+      <div style="text-align:center;font-size:.65rem;color:var(--text3);margin-bottom:4px">扫码向我付款</div>
+    </div>
+    <div class="share-card-footer"><img src="logo.jpg?v=20260611" alt="">飞创未来 · 小荷包</div></div>
+    <div style="text-align:center;margin-top:10px"><button onclick="toast('💡 截图保存即可分享')" style="background:#07C160;color:#fff;border:none;padding:9px 24px;border-radius:18px;font-size:.8rem;font-weight:600;cursor:pointer">📸 截图分享</button></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('piggy_theme',t);document.getElementById('themeLightBtn').classList.toggle('active',t==='light');document.getElementById('themeDarkBtn').classList.toggle('active',t==='dark')}
+function initTheme(){setTheme(localStorage.getItem('piggy_theme')||'light')}
+function setSplashStatus(msg){try{var el=document.getElementById('splashStatus');if(el)el.textContent=msg}catch(ex){}}
+function hideSplash(){try{var s=document.getElementById('splashScreen');s.classList.add('hidden');setTimeout(function(){s.style.display='none'},500)}catch(ex){}}
+var AUK='piggy_bank_users_v2',ASK='piggy_bank_session_v2';
+function getUsers(){try{return JSON.parse(localStorage.getItem(AUK))||{}}catch(e){return {}}}
+function saveUsers(u){localStorage.setItem(AUK,JSON.stringify(u))}
+var currentUser=null;
+function loadSession(){try{var s=JSON.parse(localStorage.getItem(ASK));if(s&&s.username&&getUsers()[s.username]){currentUser=s.username;return true}}catch(e){}return false}
+function saveSession(u){localStorage.setItem(ASK,JSON.stringify({username:u,loginAt:Date.now()}));currentUser=u}
+function clearSession(){localStorage.removeItem(ASK);currentUser=null}
+function gsk(){return'piggy_bank_data_'+currentUser}
+function showLoginError(m){var e=document.getElementById('loginError');e.textContent=m;e.style.display='block'}
+var isReg=false;
+function toggleAuthMode(){
+  isReg=!isReg;document.getElementById('loginFormTitle').textContent=isReg?'注册':'登录';document.getElementById('loginFormSub').textContent=isReg?'创建一个新账号':'登录你的小荷包账户';
+  document.getElementById('loginBtn').textContent=isReg?'注册并登录':'登录';document.getElementById('loginToggleText').textContent=isReg?'已有账号？':'还没有账号？';
+  document.getElementById('loginToggleLink').textContent=isReg?'去登录':'注册账号';
+  document.getElementById('loginNameGroup').style.display=isReg?'block':'none';document.getElementById('loginError').style.display='none'
+}
+function handleLogin(e){
+  e.preventDefault();var user=document.getElementById('loginUser').value.trim(),pass=document.getElementById('loginPass').value.trim(),name=document.getElementById('regName').value.trim();
+  document.getElementById('loginError').style.display='none';
+  if(!user||!pass)return showLoginError('请填用户名和密码');if(user.length<2)return showLoginError('用户名至少2个字符');if(pass.length<3)return showLoginError('密码至少3个字符');
+  var users=getUsers();
+  if(isReg){
+    if(users[user])return showLoginError('用户名已存在');if(!name)return showLoginError('请填昵称');
+    users[user]={password:pass,nickname:name,createdAt:new Date().toISOString()};saveUsers(users);
+    localStorage.setItem(gsk(),JSON.stringify({pots:[],nextId:1,nextMemberId:2,accounts:[],realTransactions:[],nextAccId:1,nextRealTxId:1}));
+    saveSession(user);enterApp();toast('注册成功 🎉')
+  }else{
+    if(!users[user])return showLoginError('用户名不存在');if(users[user].password!==pass)return showLoginError('密码错误');
+    saveSession(user);enterApp();toast('欢迎回来 🎉')
+  }
+}
+function logout(){showConfirm('退出','确定退出？',function(){clearSession();document.getElementById('app').style.display='none';document.getElementById('loginPage').style.display='flex';document.getElementById('loginForm').reset();document.getElementById('loginError').style.display='none'},'confirm')}
+function enterApp(){
+  try{
+    setSplashStatus('正在初始化...');
+    document.getElementById('loginPage').style.display='none';document.getElementById('app').style.display='block';
+    var u=getUsers(),i=u[currentUser];
+    if(document.getElementById('headerUser'))document.getElementById('headerUser').textContent='👤 '+(i?i.nickname||currentUser:currentUser);
+    if(document.getElementById('headerUser2'))document.getElementById('headerUser2').textContent='👤 '+(i?i.nickname||currentUser:currentUser);
+    if(document.getElementById('settingsUsername'))document.getElementById('settingsUsername').textContent=currentUser;
+    if(document.getElementById('settingsNickname'))document.getElementById('settingsNickname').textContent=i?i.nickname||'-':'-';
+    setSplashStatus('加载数据中...');
+    appData=loadData();
+    setSplashStatus('检查自动存款...');
+    try{executeAutoPlans()}catch(ex){}
+    setSplashStatus('渲染首页...');
+    try{renderHome()}catch(ex){console.error('renderHome error:',ex)}
+    try{initVoiceUI()}catch(ex){}
+  }catch(ex){console.error('enterApp error:',ex)}
+  finally{setTimeout(function(){setSplashStatus('准备就绪 ✓');hideSplash()},400)}
+}
+
+// ===== MAIN DATA =====
+var DEFAULT_ICONS=['💰','🏦','✈️','🏠','🚗','🎓','💻','🎮','🏥','🎁','👶','🐱','🌴','📚','🏋️','🍜','💄','🎵','📱','🏡','🌈','⭐','🔥','💎'];
+var COLORS=['#FF6B35','#E74C3C','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#00BCD4','#009688','#4CAF50','#8BC34A','#FF9800','#795548','#607D8B'];
+var MEMBER_COLORS=['#FF6B35','#E74C3C','#2196F3','#4CAF50','#9C27B0','#00BCD4','#FF9800','#607D8B','#E91E63','#3F51B5','#8BC34A','#795548'];
+var DEFAULT_MEMBERS=[{id:'owner',name:'我',color:MEMBER_COLORS[0],isOwner:true,joinedAt:new Date().toISOString()}];
+var ACC_ICONS=['💳','🏦','💵','📱','💻','🎯','🎁','⭐'];
+var ACC_COLORS=['#07C160','#2196F3','#FF9800','#9C27B0','#00BCD4','#4CAF50','#E91E63','#FF6B35'];
+var INCOME_CATS=['工资','兼职','投资收益','红包','理财','返现','其他收入'];
+var EXPENSE_CATS=['餐饮','交通','购物','娱乐','住房','通讯','医疗','教育','服饰','日用','人情','其他'];
+function defaultData(){return{pots:[],nextId:1,nextMemberId:2,accounts:[],realTransactions:[],nextAccId:1,nextRealTxId:1,budgets:{}}}
+var appData=defaultData(),showArchived=false;
+
+function loadData(){try{var raw=localStorage.getItem(gsk());if(raw){var d=JSON.parse(raw);if(!d.pots)d.pots=[];if(!d.accounts)d.accounts=[];if(!d.realTransactions)d.realTransactions=[];if(!d.nextId)d.nextId=1;if(!d.nextMemberId)d.nextMemberId=2;if(!d.nextAccId)d.nextAccId=1;if(!d.nextRealTxId)d.nextRealTxId=1;
+  d.pots.forEach(function(p){if(!p.transactions)p.transactions=[];if(!p.members)p.members=JSON.parse(JSON.stringify(DEFAULT_MEMBERS));if(!p.milestones)p.milestones=[];if(!p.autoPlans)p.autoPlans=[];if(!p.note)p.note='';if(!p.tags)p.tags=[];if(p.balance===undefined)p.balance=0;if(p.archived===undefined)p.archived=false;
+    p.transactions.forEach(function(t){if(!t.id)t.id='tx_'+Date.now();if(!t.potId)t.potId=p.id;if(!t.type)t.type='deposit'})});
+  d.accounts.forEach(function(a){if(a.balance===undefined)a.balance=0;if(!a.group)a.group='未分组'});
+  if(!d.budgets)d.budgets={};
+  d.realTransactions.forEach(function(t){if(!t.id)t.id='rtx_'+Date.now();if(!t.type)t.type='expense'});
+  return d}}catch(e){}return defaultData()}
+function saveData(){localStorage.setItem(gsk(),JSON.stringify(appData))}
+function genId(){return'pot_'+(appData.nextId++)+'_'+Date.now()}
+function genMemberId(){return'm_'+(appData.nextMemberId++)+'_'+Date.now()}
+function genAccId(){return'acc_'+(appData.nextAccId++)+'_'+Date.now()}
+function genRealTxId(){return'rtx_'+(appData.nextRealTxId++)+'_'+Date.now()}
+function genInviteCode(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='';for(var i=0;i<8;i++)r+=c[Math.floor(Math.random()*c.length)];return r}
+function formatMoney(n){return Number(n).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function escHtml(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function getPot(id){return appData.pots.find(function(p){return p.id===id})}
+function getAcc(id){return appData.accounts.find(function(a){return a.id===id})}
+function todayStr(){return new Date().toISOString().slice(0,10)}
+function thisMonth(){return todayStr().slice(0,7)}
+function getAllTransactions(){var txs=[];appData.pots.forEach(function(p){if(p.archived&&!showArchived)return;(p.transactions||[]).forEach(function(t){txs.push({potName:p.name,potIcon:p.icon,potColor:p.color,potId:p.id,id:t.id,type:t.type,amount:t.amount,note:t.note,date:t.date})})});return txs.sort(function(a,b){return new Date(b.date)-new Date(a.date)})}
+function getAllTags(){var s=new Set();appData.pots.forEach(function(p){(p.tags||[]).forEach(function(t){s.add(t)})});return Array.from(s).sort()}
+function toast(m){var c=document.getElementById('toastContainer'),el=document.createElement('div');el.className='toast';el.textContent=m;c.appendChild(el);setTimeout(function(){if(el.parentNode)el.remove()},2500)}
+function showModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+document.querySelectorAll('.modal-overlay').forEach(function(el){el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active')})});
+
+// ===== MODE =====
+var currentMode='virtual';
+function switchMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.mode-btn').forEach(function(b){if((mode==='virtual'&&b.textContent.indexOf('虚拟')>=0)||(mode==='real'&&b.textContent.indexOf('真实')>=0))b.classList.add('active')});
+  document.getElementById('bottomNavVirtual').style.display=mode==='virtual'?'flex':'none';
+  document.getElementById('bottomNavReal').style.display=mode==='real'?'flex':'none';
+  document.querySelector('.fab').style.display='flex';
+  if(mode==='virtual')switchPage('pageHome');else switchPage('pageReal')
+}
+function onFabClick(){if(currentMode==='virtual')openCreatePot();else openRealTx()}
+function switchPage(pageId){
+  var vp=['pageHome','pageRecords','pageStats','pageSettings','pageAdmin','pageReal','pageRealTransactions','pageRealStats'];
+  if(vp.indexOf(pageId)<0)return;
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.getElementById(pageId).classList.add('active');
+  var navId=currentMode==='virtual'?'bottomNavVirtual':'bottomNavReal';
+  document.querySelectorAll('#'+navId+' .nav-item').forEach(function(n){n.classList.remove('active')});
+  document.querySelectorAll('#'+navId+' .nav-item[data-page="'+pageId+'"]').forEach(function(n){n.classList.add('active')});
+  var fab=document.querySelector('.fab');
+  if(pageId==='pageHome'||pageId==='pageReal'){fab.style.display='flex'}else{fab.style.display='none'}
+  if(pageId==='pageHome')renderHome();else if(pageId==='pageRecords')renderRecords();else if(pageId==='pageStats')renderStats();else if(pageId==='pageAdmin')renderAdmin();
+  else if(pageId==='pageReal')renderReal();else if(pageId==='pageRealTransactions')renderRealRecords();else if(pageId==='pageRealStats')renderRealStats()
+}
+
+// ===== HOME =====
+var selectedTag=null;
+function renderHome(){
+  var pots=appData.pots.filter(function(p){return showArchived||!p.archived}),allPots=appData.pots;
+  var tb=allPots.reduce(function(s,p){return s+(p.balance||0)},0),tt=allPots.reduce(function(s,p){return s+(p.target||0)},0),rate=tt>0?(tb/tt*100):0,tm=allPots.reduce(function(s,p){return s+(p.members?p.members.length:1)},0);
+  document.getElementById('totalBalance').textContent=formatMoney(tb);
+  document.getElementById('totalProgress').textContent='储蓄进度 · '+rate.toFixed(1)+'% · '+allPots.length+'个荷包';
+  document.getElementById('statPots').textContent=allPots.length;document.getElementById('statTarget').textContent='¥'+formatMoney(tt);
+  document.getElementById('statRate').textContent=rate.toFixed(1)+'%';document.getElementById('statMembers').textContent=tm;
+  document.getElementById('archiveToggleBtn').textContent='📦 归档 ('+appData.pots.filter(function(p){return p.archived}).length+')';
+  var tags=getAllTags(),th='<button class="tag-pill'+(selectedTag===null?' active':'')+'" onclick="selectedTag=null;renderHome()">全部</button>';
+  tags.forEach(function(t){th+='<button class="tag-pill'+(selectedTag===t?' active':'')+'" onclick="selectedTag=\''+t+'\';renderHome()">'+escHtml(t)+'</button>'});
+  document.getElementById('tagFilter').innerHTML=th;
+  var q=document.getElementById('searchInput').value.trim().toLowerCase();
+  var f=pots;if(q)f=f.filter(function(p){return p.name.toLowerCase().indexOf(q)>=0||(p.tags||[]).some(function(t){return t.toLowerCase().indexOf(q)>=0})});
+  if(selectedTag)f=f.filter(function(p){return(p.tags||[]).indexOf(selectedTag)>=0});
+  var c=document.getElementById('potList');
+  if(f.length===0){c.innerHTML='<div class="empty-state"><div class="empty-icon">🏦</div><h3>'+(pots.length===0?'还没有荷包':'无匹配')+'</h3></div>';return}
+  c.innerHTML=f.map(function(p){var pct=p.target>0?Math.min(100,(p.balance/p.target*100)):0,mb=p.members||DEFAULT_MEMBERS,tb=(p.tags||[]).map(function(t){return'<span class="pot-tag-badge" style="background:'+p.color+'20;color:'+p.color+'">'+escHtml(t)+'</span>'}).join('');
+    return'<div class="pot-card'+(p.archived?' archived':'')+'" onclick="openPotDetail(\''+p.id+'\')">'+(p.archived?'<div class="archived-badge">已归档</div>':'')+
+      '<div class="pot-card-header"><div class="pot-card-left"><div class="pot-icon" style="background:'+p.color+'20;color:'+p.color+'">'+(p.icon||'💰')+'</div><div class="pot-info"><div class="pot-name">'+escHtml(p.name)+tb+'</div><div class="pot-target">目标 ¥'+formatMoney(p.target)+'</div><div class="pot-members">👥 '+mb.length+'位成员</div></div></div><div class="pot-balance"><div class="amount">¥'+formatMoney(p.balance)+'</div><div class="sublabel">已存</div></div></div>'+
+      '<div class="pot-progress-wrap"><div class="pot-progress-bar"><div class="pot-progress-fill" style="width:'+pct+'%;background:'+p.color+'"></div></div><div class="pot-progress-text"><span>'+pct.toFixed(1)+'%</span><span>¥'+formatMoney(p.target-p.balance)+' 剩余</span></div></div>'+
+      '<div class="pot-card-actions" onclick="event.stopPropagation()"><button class="pot-btn pot-btn-success" onclick="quickDeposit(\''+p.id+'\')">💰 存入</button><button class="pot-btn pot-btn-warning" onclick="event.stopPropagation();showInviteCode(\''+p.id+'\',event)">👥 邀请</button></div></div>'
+  }).join('')
+}
+function toggleArchiveView(){showArchived=!showArchived;renderHome()}
+
+// ===== REAL =====
+function renderReal(){
+  var accts=appData.accounts,tb=accts.reduce(function(s,a){return s+(a.balance||0)},0);
+  var tm=thisMonth(),txs=appData.realTransactions.filter(function(t){return t.date&&t.date.slice(0,7)===tm});
+  var ti=txs.filter(function(t){return t.type==='income'}).reduce(function(s,t){return s+(t.amount||0)},0);
+  var te=txs.filter(function(t){return t.type==='expense'}).reduce(function(s,t){return s+(t.amount||0)},0);
+  document.getElementById('realTotalBalance').textContent=formatMoney(tb);
+  document.getElementById('realTotalSub').textContent=accts.length+'个账户 · 本月支出 ¥'+formatMoney(te);
+  document.getElementById('realStatAccounts').textContent=accts.length;
+  document.getElementById('realStatIncome').textContent='¥'+formatMoney(ti);
+  document.getElementById('realStatExpense').textContent='¥'+formatMoney(te);
+  document.getElementById('realStatNet').textContent='¥'+formatMoney(ti-te);
+  var container=document.getElementById('accountList');
+  if(accts.length===0){container.innerHTML='<div class="empty-state"><div class="empty-icon">💳</div><h3>还没有账户</h3><p>添加微信钱包、银行卡等开始记账</p></div>';renderBudgetWidget();return}
+  var groups=getAccGroups(),tl={wechat:'💚 微信',alipay:'💙 支付宝',bank:'🏦 银行卡',cash:'💵 现金',other:'📦 其他'};
+  var html='';
+  Object.keys(groups).sort().forEach(function(g){
+    var items=groups[g];
+    html+='<div style="font-size:.7rem;color:var(--text3);padding:8px 0 3px;font-weight:600;letter-spacing:.5px">📂 '+escHtml(g)+' ('+items.length+')</div>';
+    items.forEach(function(a){
+      html+='<div class="acc-card" onclick="openAccMenu(\''+a.id+'\')"><div class="acc-icon" style="background:'+(a.color||'#07C160')+'20;color:'+(a.color||'#07C160')+'">'+(a.icon||'💳')+'</div><div class="acc-info"><div class="acc-name">'+escHtml(a.name)+'</div><div class="acc-type">'+(tl[a.type]||a.type)+'</div></div><div class="acc-balance"><div class="amount" style="color:'+(a.balance>=0?'var(--text)':'var(--danger)')+'">¥'+formatMoney(a.balance)+'</div><div class="sublabel">余额</div></div></div>'
+    })
+  });
+  container.innerHTML=html;
+  renderBudgetWidget()
+}
+
+// ===== ACCOUNTS =====
+function openAddAccount(){document.getElementById('accModalTitle').textContent='💳 添加账户';document.getElementById('editAccId').value='';document.getElementById('accName').value='';document.getElementById('accType').value='wechat';document.getElementById('accBalance').value='0';setupAccIcons(null);setupAccColors(ACC_COLORS[0]);showModal('addAccModal')}
+function setupAccIcons(s){document.getElementById('accIconPicker').innerHTML=DEFAULT_ICONS.map(function(i){return'<div class="icon-option'+(i===s?' selected':'')+'" data-icon="'+i+'" onclick="selectAccIcon(this)">'+i+'</div>'}).join('')}
+function selectAccIcon(el){document.querySelectorAll('#accIconPicker .icon-option').forEach(function(o){o.classList.remove('selected')});el.classList.add('selected')}
+function setupAccColors(s){document.getElementById('accColorPicker').innerHTML=ACC_COLORS.map(function(c){return'<div class="color-option'+(c===s?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectAccColor(this)"></div>'}).join('')}
+function selectAccColor(el){document.querySelectorAll('#accColorPicker .color-option').forEach(function(o){o.classList.remove('selected')});el.classList.add('selected')}
+function getSelAccIcon(){var s=document.querySelector('#accIconPicker .selected');return s?s.dataset.icon:'💳'}
+function getSelAccColor(){var s=document.querySelector('#accColorPicker .selected');return s?s.dataset.color:ACC_COLORS[0]}
+function saveAccount(e){e.preventDefault();var id=document.getElementById('editAccId').value,name=document.getElementById('accName').value.trim(),type=document.getElementById('accType').value,icon=getSelAccIcon(),color=getSelAccColor(),balance=parseFloat(document.getElementById('accBalance').value)||0;if(!name)return toast('请输入账户名称');if(id){var a=getAcc(id);if(a){a.name=name;a.type=type;a.icon=icon;a.color=color;saveData();toast('已更新')}}else{appData.accounts.push({id:genAccId(),name,type,icon,color,balance,createdAt:new Date().toISOString()});saveData();toast('账户已添加 💳')};closeModal('addAccModal');renderReal()}
+function openAccMenu(accId){var a=getAcc(accId);if(!a)return;var tl={wechat:'微信',alipay:'支付宝',bank:'银行卡',cash:'现金',other:'其他'};document.getElementById('accMenuContent').innerHTML='<div style="text-align:center;padding:4px 0 8px;border-bottom:1px solid var(--border)"><div style="font-size:1.2rem">'+a.icon+'</div><div style="font-size:.82rem;font-weight:600">'+escHtml(a.name)+'</div><div style="font-size:.68rem;color:var(--text2)">¥'+formatMoney(a.balance)+' · '+(tl[a.type]||a.type)+' · '+(a.group||'未分组')+'</div></div><div onclick="closeModal(\'accMenuModal\');openWechatCollect(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--success);color:#fff;margin-bottom:3px">🧾 微信收款</div><div onclick="closeModal(\'accMenuModal\');openPayReq(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--warning);color:#fff;margin-bottom:3px">📤 请求收款</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'income\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📈 记录收入</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'expense\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📉 记录支出</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'transfer\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">🔄 转账</div><div onclick="closeModal(\'accMenuModal\');adjustAccBalance(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">✏️ 调整余额</div><div onclick="closeModal(\'accMenuModal\');editAccGroup(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📂 更改分组</div><div onclick="closeModal(\'accMenuModal\');deleteAcc(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--danger);border-top:1px solid var(--border);margin-top:3px;padding-top:9px">🗑️ 删除</div>';showModal('accMenuModal')}
+function recordRealTxFromAcc(accId,type){currentAccId=accId;openRealTx(type)}
+var currentAccId=null,realTxMode='income';
+function openWechatCollect(accId){
+  currentAccId=accId;
+  var a=getAcc(accId);
+  if(!a)return;
+  document.getElementById('qrAccDisplay').textContent=a.icon+' '+escHtml(a.name)+'  · 余额 ¥'+formatMoney(a.balance);
+  document.getElementById('qrAmount').value='';
+  document.getElementById('qrQuickAmounts').innerHTML=[10,50,100,200,500].map(function(v){
+    return'<button type="button" class="qr-quick-btn" onclick="document.getElementById(\'qrAmount\').value='+v+';document.querySelectorAll(\'.qr-quick-btn\').forEach(function(b){b.classList.remove(\'selected\')});this.classList.add(\'selected\')">¥'+v+'</button>'
+  }).join('');
+  showModal('wechatQrModal');
+  setTimeout(function(){document.getElementById('qrAmount').focus()},300)
+}
+function confirmWechatCollect(){
+  var amount=parseFloat(document.getElementById('qrAmount').value);
+  if(!amount||amount<=0)return toast('请输入收款金额');
+  var acc=getAcc(currentAccId);
+  if(!acc)return toast('账户不存在');
+  acc.balance=(acc.balance||0)+amount;
+  var tx={id:genRealTxId(),type:'income',amount:amount,note:'微信收款',category:'收款',date:new Date().toISOString(),accountId:currentAccId};
+  if(!appData.realTransactions)appData.realTransactions=[];
+  appData.realTransactions.push(tx);
+  saveData();
+  closeModal('wechatQrModal');
+  renderReal();
+  speakText('已收到微信收款'+amount+'元');
+  toast('✅ 微信收款 ¥'+formatMoney(amount)+' 已到账')
+}
+function openRealTx(type){realTxMode=type||'income';document.getElementById('realTxType').value=realTxMode;setRealTxType(realTxMode);document.getElementById('realTxAmount').value='';document.getElementById('realTxNote').value='';var opts=appData.accounts.map(function(a){return'<option value="'+a.id+'">'+a.icon+' '+escHtml(a.name)+' (¥'+formatMoney(a.balance)+')</option>'}).join('');document.getElementById('realTxAccount').innerHTML=opts;document.getElementById('realTxToAccount').innerHTML=opts;if(currentAccId)document.getElementById('realTxAccount').value=currentAccId;updateRealTxCats();showModal('realTxModal')}
+function setRealTxType(t){realTxMode=t;document.getElementById('realTxType').value=t;['rtIncomeBtn','rtExpenseBtn','rtTransferBtn'].forEach(function(id){var el=document.getElementById(id);el.style.background='var(--bg)';el.style.color='var(--text)'});var bm={income:'rtIncomeBtn',expense:'rtExpenseBtn',transfer:'rtTransferBtn'},btn=document.getElementById(bm[t]);btn.style.background=t==='income'?'var(--success)':t==='expense'?'var(--danger)':'var(--warning)';btn.style.color='#fff';document.getElementById('realTxTitle').textContent=t==='income'?'📈 记收入':t==='expense'?'📉 记支出':'🔄 转账';document.getElementById('realTxBtn').style.background=t==='income'?'var(--success)':t==='expense'?'var(--danger)':'var(--warning)';document.getElementById('realTxBtn').textContent=t==='income'?'确认收入':t==='expense'?'确认支出':'确认转账';document.getElementById('realTxCatGroup').style.display=t==='transfer'?'none':'block';document.getElementById('realTxAccTo').style.display=t==='transfer'?'block':'none';document.getElementById('realTxAccFrom').querySelector('label').textContent=t==='transfer'?'转出账户':'账户';updateRealTxCats()}
+function updateRealTxCats(){var sel=document.getElementById('realTxCategory');if(realTxMode==='transfer'){sel.innerHTML='';return}var cats=realTxMode==='income'?INCOME_CATS:EXPENSE_CATS;sel.innerHTML=cats.map(function(c){return'<option value="'+c+'">'+c+'</option>'}).join('')}
+
+// ===== BUDGET =====
+function openBudgetModal(){
+  var m=thisMonth(),b=appData.budgets||{};
+  var html='<div style="font-size:.78rem;color:var(--text2);margin-bottom:8px;text-align:center">'+m+' 月预算设置</div>';
+  EXPENSE_CATS.forEach(function(c){
+    var v=b[c]||'';
+    html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="width:50px;font-size:.8rem;flex-shrink:0">'+c+'</span><input class="form-input" id="bg_'+c+'" type="number" min="0" value="'+v+'" placeholder="0" style="flex:1;padding:6px 8px;font-size:.78rem"><span style="font-size:.7rem;color:var(--text3);width:20px">¥</span></div>'
+  });
+  html+='<button class="action-btn" onclick="saveBudget()" style="width:100%;background:var(--primary);color:#fff;border:none;padding:9px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;margin-top:4px">保存预算</button>';
+  document.getElementById('budgetList').innerHTML=html;
+  showModal('budgetModal')
+}
+function saveBudget(){
+  if(!appData.budgets)appData.budgets={};
+  EXPENSE_CATS.forEach(function(c){
+    var v=parseFloat(document.getElementById('bg_'+c).value);
+    if(v>0)appData.budgets[c]=v;else delete appData.budgets[c]
+  });
+  saveData();closeModal('budgetModal');renderReal();toast('预算已保存')
+}
+function getBudgets(){return appData.budgets||{}}
+function renderBudgetWidget(){
+  var b=getBudgets(),m=thisMonth(),keys=Object.keys(b);
+  if(keys.length===0){document.getElementById('budgetWidget').innerHTML='';return}
+  var spent={};
+  (appData.realTransactions||[]).filter(function(t){return t.type==='expense'&&t.date&&t.date.slice(0,7)===m}).forEach(function(t){
+    var c=t.category||'其他';spent[c]=(spent[c]||0)+t.amount
+  });
+  var html='<div class="section-header"><span class="section-title">💰 本月预算</span><button class="section-action" onclick="openBudgetModal()">编辑</button></div>';
+  keys.forEach(function(c){
+    var s=spent[c]||0,t=b[c],pct=Math.min(100,(s/t*100)),cls=pct>=100?'exceed':pct>=80?'warn':'ok';
+    html+='<div class="budget-card"><div class="budget-card-header"><span class="budget-cat">'+c+'</span><span class="budget-amounts"><span class="used '+(pct>=80?'exceed':'')+'">¥'+formatMoney(s)+'</span><span class="total"> / ¥'+formatMoney(t)+'</span></span></div><div class="budget-bar"><div class="budget-bar-fill '+cls+'" style="width:'+pct+'%"></div></div></div>'
+  });
+  document.getElementById('budgetWidget').innerHTML=html
+}
+
+// ===== ACCOUNT GROUP =====
+function getAccGroups(){
+  var g={};
+  appData.accounts.forEach(function(a){
+    var gr=a.group||'未分组';
+    if(!g[gr])g[gr]=[];
+    g[gr].push(a)
+  });
+  return g
+}
+
+// ===== PAYMENT REQUEST =====
+function openPayReq(accId){
+  var a=getAcc(accId);if(!a)return;
+  var amt=prompt('输入收款金额（¥）：');
+  if(!amt||isNaN(parseFloat(amt))||parseFloat(amt)<=0)return toast('请输入有效金额');
+  amt=parseFloat(amt);
+  document.getElementById('payReqTitle').textContent='收款请求';
+  document.getElementById('payReqDesc').textContent=a.icon+' '+escHtml(a.name)+' · 请扫码付款';
+  document.getElementById('payReqAmount').textContent='¥'+formatMoney(amt);
+  document.getElementById('payReqOverlay').classList.add('active')
+}
+function closePayReq(){document.getElementById('payReqOverlay').classList.remove('active')}
+
+// ===== CSV EXPORT =====
+function exportCSV(){
+  var txs=appData.realTransactions||[];
+  if(txs.length===0)return toast('暂无数据');
+  var ttl={wechat:'微信',alipay:'支付宝',bank:'银行卡',cash:'现金',other:'其他'};
+  var acctMap={};appData.accounts.forEach(function(a){acctMap[a.id]=a});
+  var rows=[['日期','类型','分类','金额','账户','备注']];
+  txs.sort(function(a,b){return new Date(b.date)-new Date(a.date)}).forEach(function(t){
+    var acc=acctMap[t.accountId];
+    rows.push([
+      t.date?t.date.slice(0,10):'',
+      t.type==='income'?'收入':t.type==='expense'?'支出':'转账',
+      t.category||'',
+      (t.type==='income'?'+':'-')+t.amount.toFixed(2),
+      acc?acc.name+'('+(ttl[acc.type]||acc.type)+')':'已删除',
+      t.note||''
+    ])
+  });
+  var csv=rows.map(function(r){return r.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='真实记账_'+currentUser+'_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('已导出 CSV')
+}
+</script>
+<script>
+// Rest of the JavaScript (split to make debugging easier)
+// ===== REAL TRANSACTIONS SAVE =====
+function saveRealTx(e){e.preventDefault();var type=realTxMode,amount=parseFloat(document.getElementById('realTxAmount').value),note=document.getElementById('realTxNote').value.trim(),accId=document.getElementById('realTxAccount').value,category=type==='transfer'?'转账':document.getElementById('realTxCategory').value;if(!amount||amount<=0)return toast('请输入有效金额');var toAccId=type==='transfer'?document.getElementById('realTxToAccount').value:null;if(type==='transfer'&&accId===toAccId)return toast('不能转到同一账户');var tx={id:genRealTxId(),type,amount,note:note||(type==='income'?'收入':type==='expense'?'支出':'转账'),category,date:new Date().toISOString(),accountId:accId},fromAcc=getAcc(accId);if(type==='income'){if(fromAcc)fromAcc.balance=(fromAcc.balance||0)+amount}else if(type==='expense'){if(fromAcc){if(amount>fromAcc.balance)return toast('余额不足！'+fromAcc.name+'余额 ¥'+formatMoney(fromAcc.balance));fromAcc.balance=(fromAcc.balance||0)-amount}}else if(type==='transfer'){var toAcc=getAcc(toAccId);if(!fromAcc||!toAcc)return toast('账户不存在');if(amount>fromAcc.balance)return toast('余额不足');fromAcc.balance=(fromAcc.balance||0)-amount;toAcc.balance=(toAcc.balance||0)+amount;tx.toAccountId=toAccId}if(!appData.realTransactions)appData.realTransactions=[];appData.realTransactions.push(tx);saveData();closeModal('realTxModal');currentAccId=null;renderReal();speakText((type==='income'?'收入':'支出')+amount+'元');
+  if(type==='expense'){
+    var b=getBudgets(),m=thisMonth(),spent=0;
+    (appData.realTransactions||[]).filter(function(t){return t.type==='expense'&&t.date&&t.date.slice(0,7)===m&&t.category===category}).forEach(function(t){spent+=t.amount});
+    if(b[category]&&spent>b[category]){toast('⚠️ '+category+' 本月支出 ¥'+formatMoney(spent)+'，已超预算 ¥'+formatMoney(b[category]))}
+    else if(b[category]&&spent>=b[category]*0.8){toast('⚠️ '+category+' 预算已使用 '+(spent/b[category]*100).toFixed(0)+'%')}
+  }
+  toast((type==='income'?'📈 收入 ':'📉 支出 ')+'¥'+formatMoney(amount)+' 已记录')}
+function adjustAccBalance(accId){var a=getAcc(accId);if(!a)return;var nb=parseFloat(prompt('输入新余额（¥）：',a.balance));if(!isNaN(nb)&&nb!==null){a.balance=nb;saveData();closeModal('accMenuModal');renderReal();toast('已更新')}}
+function deleteAcc(accId){showConfirm('删除','删除将同时清除该账户的交易记录，确定？',function(){appData.accounts=appData.accounts.filter(function(a){return a.id!==accId});appData.realTransactions=appData.realTransactions.filter(function(t){return t.accountId!==accId&&t.toAccountId!==accId});saveData();closeModal('accMenuModal');renderReal();toast('已删除')},'danger')}
+var ACC_GROUPS=['未分组','日常','储蓄','投资','其他'];
+function editAccGroup(accId){
+  var a=getAcc(accId);if(!a)return;
+  var g=prompt('输入分组名称（可选：日常 / 储蓄 / 投资 / 其他）：',a.group||'未分组');
+  if(g&&g.trim()){a.group=g.trim();saveData();renderReal();toast('已更新分组')}
+}
+
+// ===== REAL TRANSACTIONS LIST =====
+var realRecordFilter='all';
+function filterRealRecords(f){realRecordFilter=f;document.querySelectorAll('#realRecordFilterTabs .filter-tab').forEach(function(t){t.classList.toggle('active',t.dataset.filter===f)});renderRealRecords()}
+function renderRealRecords(){var container=document.getElementById('realRecordList'),empty=document.getElementById('realRecordEmpty');var txs=[].concat(appData.realTransactions||[]).sort(function(a,b){return new Date(b.date)-new Date(a.date)});if(realRecordFilter!=='all')txs=txs.filter(function(t){return t.type===realRecordFilter});var sq=document.getElementById('realRecordSearch').value.trim().toLowerCase();if(sq)txs=txs.filter(function(t){return(t.note||'').toLowerCase().indexOf(sq)>=0||(t.category||'').toLowerCase().indexOf(sq)>=0});if(txs.length===0){container.innerHTML='';empty.style.display='block';return}empty.style.display='none';var acctMap={};appData.accounts.forEach(function(a){acctMap[a.id]=a});container.innerHTML=txs.map(function(t){var ta=t.type==='income'?'收入':t.type==='expense'?'支出':'转账',tc=t.type==='income'?'#1A9E5C':t.type==='expense'?'#C0392B':'#D68910',acc=acctMap[t.accountId],icon=acc?acc.icon:'💳',color=acc?acc.color:'#07C160';var nh=escHtml(t.note||ta);if(sq&&nh.toLowerCase().indexOf(sq)>=0){var idx=nh.toLowerCase().indexOf(sq);nh=nh.slice(0,idx)+'<span class="record-highlight">'+nh.slice(idx,idx+sq.length)+'</span>'+nh.slice(idx+sq.length)}var cb=t.category?'<span class="cat-badge" style="background:'+tc+'20;color:'+tc+'">'+escHtml(t.category)+'</span>':'';return'<div class="record-item"><div class="record-icon '+t.type+'" style="background:'+color+'20;color:'+color+'">'+icon+'</div><div class="record-detail"><div class="record-note">'+nh+cb+'</div><div class="record-meta"><span style="color:'+color+'">'+escHtml(acc?acc.name:'已删除')+'</span>'+(t.type==='transfer'&&t.toAccountId?' → '+escHtml(acctMap[t.toAccountId]?acctMap[t.toAccountId].name:'已删除'):'')+' · '+formatDate(t.date)+'</div></div><div class="record-amount '+t.type+'">'+(t.type==='income'?'+':'-')+'¥'+formatMoney(t.amount)+'</div></div>'}).join('')}
+
+// ===== CHARTS =====
+var trendChartInst=null,distChartInst=null;
+function renderStats(){
+  var monthly={},now=new Date();
+  for(var i=5;i>=0;i--){var d=new Date(now.getFullYear(),now.getMonth()-i,1);monthly[d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')]=0}
+  appData.pots.forEach(function(p){(p.transactions||[]).forEach(function(t){if(t.type==='deposit'||t.type==='auto-deposit'){var d=new Date(t.date),k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');if(monthly[k]!==undefined)monthly[k]+=t.amount}})});
+  try{var ctx=document.getElementById('trendChart');if(ctx){if(trendChartInst)trendChartInst.destroy();trendChartInst=new Chart(ctx,{type:'line',data:{labels:Object.keys(monthly),datasets:[{label:'月存入',data:Object.values(monthly),borderColor:'#FF6B35',backgroundColor:'rgba(255,107,53,0.1)',fill:true,tension:.4,pointBackgroundColor:'#FF6B35',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10}}}}}});}}catch(ex){}
+  try{var ctx2=document.getElementById('distChart');if(ctx2){if(distChartInst)distChartInst.destroy();var pw=appData.pots.filter(function(p){return p.balance>0});if(pw.length>0){distChartInst=new Chart(ctx2,{type:'doughnut',data:{labels:pw.map(function(p){return p.name}),datasets:[{data:pw.map(function(p){return p.balance}),backgroundColor:pw.map(function(p){return p.color}),borderWidth:2,borderColor:document.documentElement.getAttribute('data-theme')==='dark'?'#1A1A2E':'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:6,boxWidth:10}}}}});}}}catch(ex){}
+  renderAutoPlanList()
+}
+function renderAutoPlanList(){var container=document.getElementById('autoPlanList'),empty=document.getElementById('autoPlanEmpty');var all=[];appData.pots.forEach(function(p){(p.autoPlans||[]).forEach(function(pl){all.push({potName:p.name,potIcon:p.icon,potColor:p.color,potId:p.id,amount:pl.amount,freq:pl.freq,note:pl.note,active:pl.active})})});if(all.length===0){container.innerHTML='';empty.style.display='block';return}empty.style.display='none';var fl={daily:'每天',weekly:'每周',monthly:'每月'};container.innerHTML=all.map(function(pl){return'<div class="auto-plan-card" onclick="openPotDetail(\''+pl.potId+'\')" style="cursor:pointer"><div class="auto-plan-icon" style="background:'+pl.potColor+'20;color:'+pl.potColor+'">'+(pl.potIcon||'💰')+'</div><div class="auto-plan-info"><div class="plan-title">'+escHtml(pl.potName)+' · ¥'+formatMoney(pl.amount)+' / '+(fl[pl.freq]||pl.freq)+'</div><div class="plan-detail">'+escHtml(pl.note||'')+' · '+(pl.active!==false?'🟢 进行中':'🔴 已暂停')+'</div></div></div>'}).join('')}
+
+var rtChartInst=null,rcChartInst=null,raChartInst=null,realStatDim='m';
+function switchRealStatDim(d){
+  realStatDim=d;
+  document.querySelectorAll('#realStatTimeTabs .filter-tab').forEach(function(t){t.classList.toggle('active',t.dataset.d===d)});
+  renderRealStats()
+}
+function renderRealStats(){
+  var now=new Date(),monthly={},yearly={};
+  for(var i=5;i>=0;i--){var d=new Date(now.getFullYear(),now.getMonth()-i,1),k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');monthly[k]={income:0,expense:0}}
+  for(var i=2;i>=0;i--){var y=now.getFullYear()-i;yearly[y]={income:0,expense:0}}
+  var data=realStatDim==='m'?monthly:yearly;
+  (appData.realTransactions||[]).forEach(function(t){
+    if(t.type==='transfer')return;
+    var d=new Date(t.date),k=realStatDim==='m'?d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'):String(d.getFullYear());
+    if(data[k])data[k][t.type]+=t.amount
+  });
+  try{var ctx=document.getElementById('realTrendChart');if(ctx){if(rtChartInst)rtChartInst.destroy();rtChartInst=new Chart(ctx,{type:'bar',data:{labels:Object.keys(data),datasets:[{label:'收入',data:Object.values(data).map(function(m){return m.income}),backgroundColor:'rgba(46,204,113,.7)',borderRadius:3},{label:'支出',data:Object.values(data).map(function(m){return -m.expense}),backgroundColor:'rgba(231,76,60,.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:9},boxWidth:10}}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9}}}}}});}}catch(ex){}
+  try{var ctx2=document.getElementById('realCatChart');if(ctx2){if(rcChartInst)rcChartInst.destroy();var catData={};(appData.realTransactions||[]).filter(function(t){return t.type==='expense'}).forEach(function(t){var c=t.category||'其他';catData[c]=(catData[c]||0)+t.amount});var labels=Object.keys(catData),vals=Object.values(catData);if(labels.length>0){var cColors=labels.map(function(_,i){return COLORS[i%COLORS.length]});rcChartInst=new Chart(ctx2,{type:'doughnut',data:{labels:labels,datasets:[{data:vals,backgroundColor:cColors,borderWidth:1,borderColor:document.documentElement.getAttribute('data-theme')==='dark'?'#1A1A2E':'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},padding:5,boxWidth:10}}}}});}}}catch(ex){}
+  try{var ctx3=document.getElementById('realAccChart');if(ctx3){if(raChartInst)raChartInst.destroy();var accts=appData.accounts.filter(function(a){return a.balance!==0});if(accts.length>0){raChartInst=new Chart(ctx3,{type:'doughnut',data:{labels:accts.map(function(a){return a.name}),datasets:[{data:accts.map(function(a){return a.balance}),backgroundColor:accts.map(function(a){return a.color||COLORS[0]}),borderWidth:1,borderColor:document.documentElement.getAttribute('data-theme')==='dark'?'#1A1A2E':'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:9},padding:5,boxWidth:10}}}}});}}}catch(ex){}
+  // Expense ranking
+  try{
+    var rankEl=document.getElementById('expenseRanking');
+    if(!rankEl)return;
+    var now2=new Date(),m=now2.getFullYear()+'-'+String(now2.getMonth()+1).padStart(2,'0');
+    var monthExp={};(appData.realTransactions||[]).filter(function(t){return t.type==='expense'&&t.date&&t.date.slice(0,7)===m}).forEach(function(t){
+      var c=t.category||'其他';monthExp[c]=(monthExp[c]||0)+t.amount
+    });
+    var sorted=Object.keys(monthExp).sort(function(a,b){return monthExp[b]-monthExp[a]});
+    if(sorted.length===0){rankEl.innerHTML='';return}
+    var maxV=monthExp[sorted[0]]||1;
+    rankEl.innerHTML='<div class="section-header"><span class="section-title">🏆 本月支出排行榜</span></div>'+sorted.map(function(c,i){
+      var pct=(monthExp[c]/maxV*100);
+      return'<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border);font-size:.78rem"><span style="width:16px;font-weight:700;text-align:center;color:'+(i===0?'var(--danger)':i===1?'var(--warning)':'var(--text3)')+'">'+(i+1)+'</span><span style="flex:1;font-weight:500">'+escHtml(c)+'</span><div style="width:60px;height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+COLORS[i%COLORS.length]+';border-radius:3px"></div></div><span style="width:60px;text-align:right;font-weight:600">¥'+formatMoney(monthExp[c])+'</span></div>'
+    }).join('')
+  }catch(ex){}
+}
+
+// ===== VIRTUAL FEATURES =====
+function openCreatePot(){document.getElementById('potModalTitle').textContent='新建荷包';document.getElementById('potForm').querySelector('button[type="submit"]').textContent='创建荷包';document.getElementById('editPotId').value='';document.getElementById('potName').value='';document.getElementById('potTarget').value='';document.getElementById('potNote').value='';document.getElementById('potTags').value='';setupIconPicker(null);setupColorPicker(COLORS[0]);showModal('potModal')}
+function editPot(id){var p=getPot(id);if(!p)return;document.getElementById('potModalTitle').textContent='编辑荷包';document.getElementById('potForm').querySelector('button[type="submit"]').textContent='保存修改';document.getElementById('editPotId').value=id;document.getElementById('potName').value=p.name;document.getElementById('potTarget').value=p.target;document.getElementById('potNote').value=p.note||'';document.getElementById('potTags').value=(p.tags||[]).join(', ');setupIconPicker(p.icon);setupColorPicker(p.color);closeModal('potMenuModal');showModal('potModal')}
+function openDuplicatePot(){var p=getPot(currentPotId);if(!p)return;document.getElementById('potModalTitle').textContent='复制荷包';document.getElementById('potForm').querySelector('button[type="submit"]').textContent='创建副本';document.getElementById('editPotId').value='';document.getElementById('potName').value=p.name+' (副本)';document.getElementById('potTarget').value=p.target;document.getElementById('potNote').value=p.note||'';document.getElementById('potTags').value=(p.tags||[]).join(', ');setupIconPicker(p.icon);setupColorPicker(p.color);closeModal('potMenuModal');showModal('potModal')}
+function setupIconPicker(s){document.getElementById('iconPicker').innerHTML=DEFAULT_ICONS.map(function(i){return'<div class="icon-option'+(i===s?' selected':'')+'" data-icon="'+i+'" onclick="selectIcon(this)">'+i+'</div>'}).join('')}
+function selectIcon(el){document.querySelectorAll('.icon-option').forEach(function(o){o.classList.remove('selected')});el.classList.add('selected')}
+function setupColorPicker(s){document.getElementById('colorPicker').innerHTML=COLORS.map(function(c){return'<div class="color-option'+(c===s?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectColor(this)"></div>'}).join('')}
+function selectColor(el){document.querySelectorAll('.color-option').forEach(function(o){o.classList.remove('selected')});el.classList.add('selected')}
+function getSelectedIcon(){var s=document.querySelector('#iconPicker .selected');return s?s.dataset.icon:DEFAULT_ICONS[0]}
+function getSelectedColor(){var s=document.querySelector('#colorPicker .selected');return s?s.dataset.color:COLORS[0]}
+function savePot(e){e.preventDefault();var id=document.getElementById('editPotId').value,name=document.getElementById('potName').value.trim(),target=parseFloat(document.getElementById('potTarget').value),icon=getSelectedIcon(),color=getSelectedColor(),note=document.getElementById('potNote').value.trim(),tags=document.getElementById('potTags').value.split(',').map(function(t){return t.trim()}).filter(Boolean);if(!name)return toast('请输入荷包名称');if(!target||target<=0)return toast('请输入有效目标金额');if(id){var p=getPot(id);if(p){p.name=name;p.target=target;p.icon=icon;p.color=color;p.note=note;p.tags=tags;saveData();toast('已更新')}}else{appData.pots.push({id:genId(),name,target,balance:0,icon,color,note,tags,createdAt:new Date().toISOString(),transactions:[],members:JSON.parse(JSON.stringify(DEFAULT_MEMBERS)),milestones:[],autoPlans:[],inviteCode:genInviteCode(),archived:false});saveData();toast('荷包创建成功 🎉')};closeModal('potModal');renderHome()}
+function toggleArchivePot(){var p=getPot(currentPotId);if(!p)return;p.archived=!p.archived;document.getElementById('archiveMenuBtn').textContent=p.archived?'📦 取消归档':'📦 归档荷包';saveData();closeModal('potMenuModal');closePotDetail();renderHome();toast(p.archived?'已归档':'已取消归档')}
+var currentPotId=null;
+function openPotDetail(id){currentPotId=id;var p=getPot(id);if(!p)return;var pct=p.target>0?Math.min(100,(p.balance/p.target*100)):0,c=213.63,o=c*(1-pct/100);document.getElementById('detailHeader').style.background='linear-gradient(135deg,'+p.color+' 0%,'+darkenColor(p.color,.2)+' 100%)';document.getElementById('detailIcon').textContent=p.icon||'💰';document.getElementById('detailIcon').style.background=p.color+'33';document.getElementById('detailName').textContent=p.name+(p.archived?' (归档)':'');document.getElementById('detailTarget').textContent='目标 ¥'+formatMoney(p.target)+(p.note?' · '+escHtml(p.note):'');document.getElementById('detailBalance').textContent=formatMoney(p.balance);document.getElementById('detailSub').textContent='已存 · '+(p.balance/p.target*100).toFixed(1)+'%';document.getElementById('detailPct').textContent=pct.toFixed(1)+'%';document.getElementById('detailRing').style.stroke=p.color;document.getElementById('detailRing').style.strokeDashoffset=o;document.getElementById('detailRemaining').textContent=formatMoney(Math.max(0,p.target-p.balance));document.getElementById('archiveMenuBtn').textContent=p.archived?'📦 取消归档':'📦 归档';renderDetailMembers();renderDetailMilestones();renderDetailAutoPlan();renderDetailRecords();document.getElementById('potDetailView').classList.add('active')}
+function closePotDetail(){document.getElementById('potDetailView').classList.remove('active');renderHome()}
+function darkenColor(h,f){var r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return'rgb('+Math.round(r*(1-f))+','+Math.round(g*(1-f))+','+Math.round(b*(1-f))+')'}
+function showPotMenu(){var p=getPot(currentPotId);if(!p)return;document.getElementById('menuPotIcon').textContent=p.icon||'💰';document.getElementById('menuPotName').textContent=p.name;showModal('potMenuModal')}
+function renderDetailMembers(){var p=getPot(currentPotId);if(!p)return;var m=p.members||[];if(m.length===0){document.getElementById('detailMembers').innerHTML='';return}var a=m.slice(0,5).map(function(m){return'<div class="member-avatar" style="background:'+m.color+'" title="'+escHtml(m.name)+(m.isOwner?' (创建者)':'')+'">'+m.name[0]+'</div>'}).join(''),mr=m.length>5?'<div class="member-avatar more">+'+(m.length-5)+'</div>':'';document.getElementById('detailMembers').innerHTML='<div class="members-header"><div><span class="members-title">👥 荷包成员</span><span class="members-count">'+m.length+'人</span></div><button class="section-action" onclick="openInviteMember()">+ 邀请</button></div><div class="member-avatars">'+a+mr+'</div>'}
+function openInviteMember(){var p=getPot(currentPotId);if(!p)return;var m=p.members||[],code=p.inviteCode||genInviteCode();if(!p.inviteCode){p.inviteCode=code;saveData()}var ml=m.map(function(m){return'<div class="member-card"><div class="member-avatar-lg" style="background:'+m.color+'">'+m.name[0]+'</div><div class="member-info"><div class="member-name">'+escHtml(m.name)+(m.isOwner?' <span style="font-size:.6rem;color:var(--text3)">(创建者)</span>':'')+'</div><div class="member-role">'+(m.isOwner?'管理员':'成员')+'</div><div class="member-joined">加入于 '+formatDate(m.joinedAt)+'</div></div>'+(m.isOwner?'':'<button class="member-remove-btn" onclick="removeMember(\''+m.id+'\')">✕</button>')+'</div>'}).join('');document.getElementById('inviteContent').innerHTML='<div class="invite-code-box"><div class="invite-code-label">邀请码</div><div class="invite-code" id="inviteCodeDisplay">'+p.inviteCode+'</div><div style="margin-top:3px"><button class="section-action" onclick="copyInviteCode()">📋 复制</button> <button class="section-action" onclick="regenerateInviteCode()">🔄 重置</button></div></div><div style="margin-bottom:6px"><div class="form-label">输入邀请码加入</div><div style="display:flex;gap:5px"><input class="form-input" id="inviteCodeInput" style="flex:1"><button style="background:var(--primary);color:#fff;border:none;padding:0 12px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer" onclick="joinViaCode()">加入</button></div></div><div style="font-size:.75rem;font-weight:600;color:var(--text2);margin-bottom:2px">成员 ('+m.length+')</div>'+ml;showModal('inviteModal')}
+function copyInviteCode(){navigator.clipboard.writeText(document.getElementById('inviteCodeDisplay').textContent).then(function(){toast('已复制')}).catch(function(){toast('复制失败')})}
+function regenerateInviteCode(){var p=getPot(currentPotId);if(!p)return;p.inviteCode=genInviteCode();saveData();document.getElementById('inviteCodeDisplay').textContent=p.inviteCode;toast('已重置')}
+function joinViaCode(){var inp=document.getElementById('inviteCodeInput').value.trim().toUpperCase();if(!inp)return toast('请输入邀请码');var found=false;for(var pi=0;pi<appData.pots.length;pi++){var p=appData.pots[pi];if(p.inviteCode===inp){if(p.id===currentPotId)return toast('不能加入自己的荷包');if(p.members&&p.members.find(function(m){return m.name==='我'}))return toast('已在荷包中');var nm={id:genMemberId(),name:'我',color:MEMBER_COLORS[Math.floor(Math.random()*MEMBER_COLORS.length)],isOwner:false,joinedAt:new Date().toISOString()};if(!p.members)p.members=[];p.members.push(nm);saveData();toast('成功加入「'+p.name+'」🎉');document.getElementById('inviteCodeInput').value='';if(currentPotId){openInviteMember();if(document.getElementById('potDetailView').classList.contains('active'))openPotDetail(currentPotId)}renderHome();found=true;break}}if(!found)toast('邀请码无效')}
+function removeMember(mId){showConfirm('移除','确定移除？',function(){var p=getPot(currentPotId);if(!p)return;p.members=(p.members||[]).filter(function(m){return m.id!==mId});saveData();openInviteMember();renderDetailMembers();renderHome()},'danger')}
+function quickDeposit(id){currentPotId=id;openTransaction('deposit')}
+var QUICK_AMOUNTS=[10,50,100,500,1000];
+function openTransaction(type){var p=getPot(currentPotId);if(!p)return;document.getElementById('txType').value=type;document.getElementById('txModalTitle').textContent=type==='deposit'?'💰 存入':'💸 取出';document.getElementById('txAmount').value='';document.getElementById('txNote').value='';document.getElementById('txSubmitBtn').textContent=type==='deposit'?'确认存入':'确认取出';document.getElementById('txSubmitBtn').style.background=type==='deposit'?'var(--primary)':'#E74C3C';document.getElementById('txPotDisplay').innerHTML='<span>'+(p.icon||'💰')+'</span> <span>'+escHtml(p.name)+'</span>';document.getElementById('quickAmounts').innerHTML=QUICK_AMOUNTS.map(function(a){return'<button type="button" class="quick-btn" onclick="selectQuickAmount('+a+')">¥'+a+'</button>'}).join('');showModal('txModal');setTimeout(function(){document.getElementById('txAmount').focus()},300)}
+function selectQuickAmount(a){document.getElementById('txAmount').value=a;document.querySelectorAll('.quick-btn').forEach(function(b){b.classList.toggle('selected',parseFloat(b.textContent.replace('¥',''))===a)})}
+function saveTransaction(e){e.preventDefault();var p=getPot(currentPotId);if(!p)return;var type=document.getElementById('txType').value,amount=parseFloat(document.getElementById('txAmount').value),note=document.getElementById('txNote').value.trim();if(!amount||amount<=0)return toast('请输入有效金额');if(type==='withdraw'&&amount>p.balance)return toast('余额不足！当前余额 ¥'+formatMoney(p.balance));var tx={id:'tx_'+Date.now(),potId:p.id,type,amount,note:note||(type==='deposit'?'存入':'取出'),date:new Date().toISOString()};if(!p.transactions)p.transactions=[];p.transactions.push(tx);p.balance=(p.balance||0)+(type==='deposit'?amount:-amount);if(p.milestones)p.milestones.forEach(function(m){if(m.target<=p.balance&&!m.achieved)m.achieved=true});saveData();closeModal('txModal');if(document.getElementById('potDetailView').classList.contains('active'))openPotDetail(currentPotId);renderHome();speakText(type==='deposit'?'已存入'+amount+'元':'已支出'+amount+'元');toast((type==='deposit'?'已存入 ¥':'已取出 ¥')+formatMoney(amount)+(type==='deposit'?' 🎉':''))}
+function renderDetailRecords(){var p=getPot(currentPotId);if(!p)return;var c=document.getElementById('detailRecordList'),e=document.getElementById('detailRecordEmpty');var txs=(p.transactions||[]).sort(function(a,b){return new Date(b.date)-new Date(a.date)});if(txs.length===0){c.innerHTML='';e.style.display='block';return}e.style.display='none';c.innerHTML=txs.map(function(t){var bt=t.type==='auto-deposit'?'自动存入':t.type==='deposit'?'存入':'支出',bc=t.type==='auto-deposit'?'auto-deposit':t.type;return'<div class="record-item"><div class="record-icon '+t.type+'">'+(t.type==='deposit'?'💰':t.type==='auto-deposit'?'⏰':'💸')+'</div><div class="record-detail"><div class="record-note">'+escHtml(t.note||(t.type==='deposit'?'存入':'取出'))+'<span class="record-type-badge '+bc+'" style="background:var(--'+(bc==='auto-deposit'?'warning':bc==='deposit'?'success':'danger')+');color:#fff">'+bt+'</span></div><div class="record-meta">'+formatDate(t.date)+'</div></div><div class="record-amount '+t.type+'">'+(t.type==='deposit'||t.type==='auto-deposit'?'+':'-')+'¥'+formatMoney(t.amount)+'</div></div>'}).join('')}
+function formatDate(iso){if(!iso)return'';var d=new Date(iso);return String(d.getMonth()+1).padStart(2,'0')+'月'+String(d.getDate()).padStart(2,'0')+'日 '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function renderDetailMilestones(){var p=getPot(currentPotId);if(!p)return;var c=document.getElementById('detailMilestones'),e=document.getElementById('detailMsEmpty'),ms=(p.milestones||[]);if(ms.length===0){c.innerHTML='';e.style.display='block';return}e.style.display='none';c.innerHTML='<div class="milestone-list">'+ms.map(function(m){var a=m.achieved||(p.balance>=m.target),pct=a?100:Math.min(100,(p.balance/m.target*100));return'<div class="milestone-item"><div class="milestone-check '+(a?'achieved':'')+'">'+(a?'✓':'')+'</div><div class="milestone-info"><div class="ms-name">'+escHtml(m.name)+'</div><div class="ms-target">目标 ¥'+formatMoney(m.target)+'</div><div class="ms-bar"><div class="ms-bar-fill" style="width:'+pct+'%;background:'+p.color+'"></div></div></div><div class="milestone-amount">'+(a?'✅ 达成':pct.toFixed(0)+'%')+'</div></div>'}).join('')+'</div>'}
+function openAddMilestone(){document.getElementById('editMsId').value='';document.getElementById('msName').value='';document.getElementById('msTarget').value='';showModal('msModal')}
+function saveMilestone(e){e.preventDefault();var p=getPot(currentPotId);if(!p)return;var id=document.getElementById('editMsId').value,name=document.getElementById('msName').value.trim(),target=parseFloat(document.getElementById('msTarget').value);if(!name||!target||target<=0)return toast('请填写完整');if(id){var ms=(p.milestones||[]).find(function(m){return m.id===id});if(ms){ms.name=name;ms.target=target}}else{if(!p.milestones)p.milestones=[];p.milestones.push({id:'ms_'+Date.now(),name,target,achieved:p.balance>=target})}saveData();closeModal('msModal');openPotDetail(currentPotId);toast('已添加 🎯')}
+function renderDetailAutoPlan(){var p=getPot(currentPotId);if(!p)return;var plans=p.autoPlans||[];if(plans.length===0){document.getElementById('detailAutoPlan').innerHTML='<div style="text-align:center;padding:12px;color:var(--text3);font-size:.75rem">未设置</div>';return}var fl={daily:'每天',weekly:'每周',monthly:'每月'};document.getElementById('detailAutoPlan').innerHTML=plans.map(function(pl){return'<div class="auto-plan-card"><div class="auto-plan-icon">⏰</div><div class="auto-plan-info"><div class="plan-title">¥'+formatMoney(pl.amount)+' / '+(fl[pl.freq]||pl.freq)+'</div><div class="plan-detail">'+escHtml(pl.note||'')+(pl.lastExecuted?' · 上次:'+formatDate(pl.lastExecuted):' · 未执行')+'</div></div><button class="auto-plan-toggle '+(pl.active!==false?'active':'')+'" onclick="toggleAutoPlan(\''+pl.id+'\')"></button></div>'}).join('')}
+function openAddAutoPlan(){document.getElementById('editPlanId').value='';document.getElementById('planAmount').value='';document.getElementById('planFreq').value='monthly';document.getElementById('planNote').value='';showModal('autoPlanModal')}
+function saveAutoPlan(e){e.preventDefault();var p=getPot(currentPotId);if(!p)return;var id=document.getElementById('editPlanId').value,amount=parseFloat(document.getElementById('planAmount').value),freq=document.getElementById('planFreq').value,note=document.getElementById('planNote').value.trim();if(!amount||amount<=0)return toast('请输入有效金额');if(id){var pl=(p.autoPlans||[]).find(function(pl){return pl.id===id});if(pl){pl.amount=amount;pl.freq=freq;pl.note=note}}else{if(!p.autoPlans)p.autoPlans=[];p.autoPlans.push({id:'ap_'+Date.now(),amount,freq,note,active:true,createdAt:new Date().toISOString(),lastExecuted:null})}saveData();closeModal('autoPlanModal');openPotDetail(currentPotId);toast('已设置 ⏰')}
+function toggleAutoPlan(pid){var p=getPot(currentPotId);if(!p)return;var pl=(p.autoPlans||[]).find(function(pl){return pl.id===pid});if(pl){pl.active=!pl.active;saveData();renderDetailAutoPlan();toast(pl.active?'已开启':'已暂停')}}
+var recordFilter='all';
+function filterRecords(f){recordFilter=f;document.querySelectorAll('#recordFilterTabs .filter-tab').forEach(function(t){t.classList.toggle('active',t.dataset.filter===f)});renderRecords()}
+function renderRecords(){var c=document.getElementById('recordList'),e=document.getElementById('recordEmpty');var txs=getAllTransactions();if(recordFilter!=='all')txs=txs.filter(function(t){return t.type===recordFilter});var sq=document.getElementById('recordSearch').value.trim().toLowerCase();if(sq)txs=txs.filter(function(t){return(t.note||'').toLowerCase().indexOf(sq)>=0||(t.potName||'').toLowerCase().indexOf(sq)>=0});if(txs.length===0){c.innerHTML='';e.style.display='block';return}e.style.display='none';c.innerHTML=txs.map(function(t){var nh=escHtml(t.note||(t.type==='deposit'?'存入':'取出'));if(sq&&nh.toLowerCase().indexOf(sq)>=0){var idx=nh.toLowerCase().indexOf(sq);nh=nh.slice(0,idx)+'<span class="record-highlight">'+nh.slice(idx,idx+sq.length)+'</span>'+nh.slice(idx+sq.length)}return'<div class="record-item" onclick="openPotDetail(\''+t.potId+'\')" style="cursor:pointer"><div class="record-icon '+t.type+'" style="background:'+t.potColor+'20;color:'+t.potColor+'">'+(t.potIcon||'💰')+'</div><div class="record-detail"><div class="record-note">'+nh+'</div><div class="record-meta"><span style="color:'+t.potColor+'">'+escHtml(t.potName)+'</span> · '+formatDate(t.date)+'</div></div><div class="record-amount '+t.type+'">'+(t.type==='deposit'||t.type==='auto-deposit'?'+':'-')+'¥'+formatMoney(t.amount)+'</div></div>'}).join('')}
+function openShareCard(){var p=getPot(currentPotId);if(!p)return;var pct=(p.target>0?Math.min(100,(p.balance/p.target*100)):0).toFixed(1);document.getElementById('shareIcon').textContent=p.icon||'💰';document.getElementById('shareName').textContent=p.name;document.getElementById('shareTarget').textContent='目标 ¥'+formatMoney(p.target);document.getElementById('shareAmount').textContent='¥'+formatMoney(p.balance);document.getElementById('shareBarFill').style.width=pct+'%';document.getElementById('shareBarFill').style.background=p.color;document.getElementById('sharePct').textContent=pct+'%';document.getElementById('shareStat').textContent='还差 ¥'+formatMoney(Math.max(0,p.target-p.balance));document.getElementById('shareCardHeader').style.background='linear-gradient(135deg,'+p.color+' 0%,'+darkenColor(p.color,.2)+' 100%)';document.getElementById('shareCardOverlay').classList.add('active');document.getElementById('shareCardOverlay').onclick=function(e){if(e.target===this)closeShareCard()}}
+function closeShareCard(){document.getElementById('shareCardOverlay').classList.remove('active')}
+function openRealShareCard(){
+  var accts=appData.accounts,tb=accts.reduce(function(s,a){return s+(a.balance||0)},0);
+  var tm=thisMonth(),txs=appData.realTransactions.filter(function(t){return t.date&&t.date.slice(0,7)===tm});
+  var ti=txs.filter(function(t){return t.type==='income'}).reduce(function(s,t){return s+(t.amount||0)},0);
+  var te=txs.filter(function(t){return t.type==='expense'}).reduce(function(s,t){return s+(t.amount||0)},0);
+  document.getElementById('realShareAmount').textContent='¥'+formatMoney(tb);
+  document.getElementById('realShareInc').textContent='¥'+formatMoney(ti);
+  document.getElementById('realShareExp').textContent='¥'+formatMoney(te);
+  document.getElementById('realShareAcc').textContent=accts.length;
+  document.getElementById('realShareOverlay').classList.add('active');
+  document.getElementById('realShareOverlay').onclick=function(e){if(e.target===this)closeRealShareCard()}
+}
+function closeRealShareCard(){document.getElementById('realShareOverlay').classList.remove('active')}
+function renderAdmin(){var p=appData.pots,tb=p.reduce(function(s,p){return s+(p.balance||0)},0),tt=p.reduce(function(s,p){return s+(p.target||0)},0),tx=getAllTransactions(),td=tx.filter(function(t){return t.type==='deposit'||t.type==='auto-deposit'}).reduce(function(s,t){return s+t.amount},0),tw=tx.filter(function(t){return t.type==='withdraw'}).reduce(function(s,t){return s+t.amount},0),tm=p.reduce(function(s,p){return s+(p.members?p.members.length:0)},0);var h='<div class="admin-stat-grid"><div class="admin-stat-box"><div class="big-num">'+p.length+'</div><div class="stat-label">总荷包</div></div><div class="admin-stat-box"><div class="big-num">¥'+formatMoney(tb)+'</div><div class="stat-label">总资产</div></div><div class="admin-stat-box"><div class="big-num">'+tx.length+'</div><div class="stat-label">总交易</div></div><div class="admin-stat-box"><div class="big-num">'+tm+'</div><div class="stat-label">总成员</div></div><div class="admin-stat-box"><div class="big-num">¥'+formatMoney(td)+'</div><div class="stat-label">总存入</div></div><div class="admin-stat-box"><div class="big-num">¥'+formatMoney(tw)+'</div><div class="stat-label">总支出</div></div></div>';if(p.length>0){h+='<div class="section-header"><span class="section-title">📦 荷包列表</span></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>荷包</th><th>目标</th><th>已存</th><th>进度</th><th>成员</th><th>交易</th><th>状态</th></tr></thead><tbody>';p.forEach(function(p){var pct=p.target>0?(p.balance/p.target*100).toFixed(1):'0.0';h+='<tr><td><span style="font-weight:600">'+(p.icon||'💰')+' '+escHtml(p.name)+'</span></td><td>¥'+formatMoney(p.target)+'</td><td>¥'+formatMoney(p.balance)+'</td><td><span class="admin-badge" style="background:'+p.color+'20;color:'+p.color+'">'+pct+'%</span></td><td>'+(p.members?p.members.length:1)+'</td><td>'+(p.transactions||[]).length+'</td><td>'+(p.archived?'<span style="color:var(--text3)">📦 归档</span>':'🟢 进行')+'</td></tr>'});h+='</tbody></table></div>';if(tx.length>0){h+='<div class="section-header" style="margin-top:12px"><span class="section-title">📋 交易明细</span></div><div class="admin-table-wrap" style="max-height:260px;overflow-y:auto"><table class="admin-table"><thead><tr><th>日期</th><th>荷包</th><th>类型</th><th>金额</th><th>备注</th></tr></thead><tbody>';var r=tx.slice(0,50);r.forEach(function(t){var tl=t.type==='deposit'?'存入':t.type==='auto-deposit'?'自动':'支出',tc=t.type==='deposit'?'#1A9E5C':t.type==='auto-deposit'?'#D68910':'#C0392B';h+='<tr><td style="font-size:.68rem;color:var(--text3)">'+formatDate(t.date)+'</td><td><span style="color:'+t.potColor+'">'+(t.potIcon||'')+' '+escHtml(t.potName)+'</span></td><td><span class="admin-badge" style="background:'+tc+'20;color:'+tc+'">'+tl+'</span></td><td style="font-weight:600;color:'+tc+'">'+(t.type==='deposit'||t.type==='auto-deposit'?'+':'-')+'¥'+formatMoney(t.amount)+'</td><td style="font-size:.72rem">'+escHtml(t.note||'-')+'</td></tr>'});if(tx.length>50)h+='<tr><td colspan="5" style="text-align:center;color:var(--text3);font-size:.7rem">仅显示最近50笔，共'+tx.length+'笔</td></tr>';h+='</tbody></table></div>'}}else{h+='<div class="empty-state"><div class="empty-icon">📊</div><h3>暂无数据</h3></div>'}document.getElementById('adminContent').innerHTML=h}
+function exportData(){var data=JSON.stringify(appData,null,2),blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='小荷包数据_'+currentUser+'_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('已导出')}
+function importData(event){var file=event.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);if(!data.pots||!Array.isArray(data.pots))return toast('无效文件');showConfirm('导入','导入将替换当前所有数据（'+appData.pots.length+'个荷包 → '+data.pots.length+'个荷包），确定？',function(){appData=data;if(!appData.nextId)appData.nextId=1;if(!appData.nextMemberId)appData.nextMemberId=2;if(!appData.nextAccId)appData.nextAccId=1;if(!appData.nextRealTxId)appData.nextRealTxId=1;saveData();renderHome();toast('导入成功 🎉')},'import')}catch(err){toast('解析失败：'+err.message)}};reader.readAsText(file);event.target.value=''}
+function confirmReset(){showConfirm('重置','确定清空所有数据？不可恢复！',function(){var u=currentUser;clearSession();localStorage.removeItem(gsk());localStorage.removeItem(ASK);localStorage.setItem(ASK,JSON.stringify({username:u,loginAt:Date.now()}));currentUser=u;appData=defaultData();saveData();renderHome();toast('已清空')},'danger')}
+var confirmCallback=null;
+function showConfirm(ti,te,cb,bt){document.getElementById('confirmTitle').textContent=ti;document.getElementById('confirmText').textContent=te;document.getElementById('confirmActionBtn').className=bt==='danger'?'btn-danger':'btn-confirm';confirmCallback=cb;showModal('confirmModal')}
+function executeConfirm(){closeModal('confirmModal');if(confirmCallback){confirmCallback();confirmCallback=null}}
+function confirmDeletePot(){showConfirm('删除','确定删除？不可恢复！',function(){appData.pots=appData.pots.filter(function(p){return p.id!==currentPotId});saveData();closeModal('potMenuModal');closePotDetail();toast('已删除')},'danger')}
+function showInviteCode(potId,ev){if(ev&&ev.stopPropagation)ev.stopPropagation();currentPotId=potId;openInviteMember()}
+function executeAutoPlans(){var e=0;appData.pots.forEach(function(p){(p.autoPlans||[]).forEach(function(pl){if(pl.active===false)return;var l=pl.lastExecuted?pl.lastExecuted.slice(0,10):null;if(pl.freq==='daily'&&l!==todayStr()){e+=doAuto(p,pl)}else if(pl.freq==='weekly'){var ld=l?new Date(l):null;if(!ld||((new Date()-ld)/(7*24*60*60*1000))>=1){if(!ld||l!==todayStr()){e+=doAuto(p,pl)}}}else if(pl.freq==='monthly'){var lm=l?l.slice(0,7):null;if(lm!==todayStr().slice(0,7)){e+=doAuto(p,pl)}}})});if(e>0)saveData()}
+function doAuto(p,pl){var tx={id:'tx_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),potId:p.id,type:'auto-deposit',amount:pl.amount,note:pl.note||'自动存款',date:new Date().toISOString()};if(!p.transactions)p.transactions=[];p.transactions.push(tx);p.balance=(p.balance||0)+pl.amount;pl.lastExecuted=new Date().toISOString();return 1}
+
+// ===== VOICE =====
+var _utt=null;
+function initVoiceUI(){
+  var pref=localStorage.getItem('piggy_voice_enabled'),on=pref!=='false';
+  document.querySelectorAll('.voice-toggle-btn').forEach(function(b){
+    b.classList.toggle('active',(on&&b.dataset.voice==='on')||(!on&&b.dataset.voice==='off'))
+  })
+}
+function speakGreeting(){
+  try{
+    var pref=localStorage.getItem('piggy_voice_enabled');
+    if(pref==='false')return;
+    if(!window.speechSynthesis)return sendVoiceDebug();
+    var doSpeak=function(){
+      _utt=new SpeechSynthesisUtterance('欢迎使用飞创未来科技工作室小荷包，祝您储蓄愉快！');
+      _utt.lang='zh-CN';_utt.rate=1.0;_utt.pitch=1.0;_utt.volume=0.9;
+      window.speechSynthesis.speak(_utt)
+    };
+    if(window.speechSynthesis.getVoices().length>0){doSpeak()}
+    else{window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.onvoiceschanged=null;doSpeak()}}
+  }catch(ex){}
+}
+function speakText(text){
+  try{
+    var pref=localStorage.getItem('piggy_voice_enabled');
+    if(pref==='false')return;
+    if(!window.speechSynthesis)return sendVoiceDebug();
+    _utt=new SpeechSynthesisUtterance(text);
+    _utt.lang='zh-CN';_utt.rate=1.0;_utt.pitch=1.0;_utt.volume=0.9;
+    window.speechSynthesis.speak(_utt)
+  }catch(ex){}
+}
+function sendVoiceDebug(){
+  // Only show debug once per session
+  if(window._voiceDebugShown)return;
+  window._voiceDebugShown=true;
+  toast('⚠️ 当前浏览器不支持语音播报，请使用 Chrome 或 Edge')
+}
+function toggleVoice(enabled){
+  localStorage.setItem('piggy_voice_enabled',enabled?'true':'false');
+  initVoiceUI();
+  if(enabled){
+    // User click gesture makes speech work immediately
+    speakGreeting();
+    toast('🔊 语音已开启')
+  }else{
+    window.speechSynthesis&&window.speechSynthesis.cancel();
+    toast('🔇 语音已关闭')
+  }
+}
+
+// ===== INIT =====
+try{
+  setSplashStatus('启动中...');
+  initTheme();
+  if(loadSession()){setSplashStatus('正在登录...');enterApp();speakGreeting()}else{setSplashStatus('请登录');document.getElementById('loginPage').style.display='flex';document.getElementById('app').style.display='none';setTimeout(hideSplash,500)}
+}catch(ex){console.error('Init error:',ex);setSplashStatus('加载失败，正在重试...');try{hideSplash()}catch(e2){}setTimeout(function(){location.reload()},2000)}
+setTimeout(function(){setSplashStatus('如果长时间无响应，请按 Ctrl+F5 强制刷新');try{hideSplash()}catch(ex){}},6000);
+</script>
+</body>
+</html>
