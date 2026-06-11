@@ -1,9 +1,8 @@
 {
   "name": "piggy-bank-api",
   "version": "1.0.0",
-  "description": "小荷包支付后端服务",
-  "main": "api/server.js",
-  "scripts": {
-    "start": "node api/server.js"
+  "main": "api/index.js",
+  "engines": {
+    "node": "18.x"
   }
 }
