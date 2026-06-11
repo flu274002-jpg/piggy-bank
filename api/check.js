@@ -3,7 +3,7 @@
 const https = require('https');
 const crypto = require('crypto');
 
-const MERCHANT_KEY = 'HIKXdnAaoOY6kBGZtKekNTcPbYoN1rHj';
+const MERCHANT_KEY = '71kPZP2PmrwIV2ELZS2VxwW8Ey3bzYQLz';
 
 function queryEzfpy(orderNo) {
   return new Promise(resolve => {
