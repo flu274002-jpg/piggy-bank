@@ -33,12 +33,9 @@ module.exports = async (req, res) => {
       name: '小荷包收款', money: parseFloat(amount).toFixed(2), sign_type: 'MD5'
     };
 
-    // 生成 MD5 签名（排除 sign 和 sign_type）
-    const signParams = { pid: params.pid, type: params.type, out_trade_no: params.out_trade_no,
-      notify_url: params.notify_url, return_url: params.return_url,
-      name: params.name, money: params.money };
-    const keys = Object.keys(signParams).sort();
-    const signStr = keys.map(k => k + '=' + signParams[k]).join('&') + '&key=' + MERCHANT_KEY;
+    // 生成 MD5 签名
+    const keys = Object.keys(params).sort();
+    const signStr = keys.map(k => k + '=' + params[k]).join('&') + MERCHANT_KEY;
     params.sign = crypto.createHash('md5').update(signStr).digest('hex');
 
     // Store order in global (note: resets on cold start)
