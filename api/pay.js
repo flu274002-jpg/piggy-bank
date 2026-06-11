@@ -1,10 +1,11 @@
-// 易支付 - 创建订单
+// 易支付 - 通过 HTML POST 表单跳转创建订单
+const https = require('https');
 const crypto = require('crypto');
 
 const MERCHANT_ID = '4764';
 const MERCHANT_KEY = '71kPZP2PmrwIV2ELZS2VxwW8Ey3bzYQLz';
-const API_URL = 'https://www.ezfpy.cn/submit.php';
 const BASE = 'https://piggy-bank-plum.vercel.app';
+const RETURN_URL = 'https://flu274002-jpg.github.io/piggy-bank/';
 
 // 官方 get_sign: 排除 sign/sign_type → 排序 → k=v 直接拼 → + KEY → MD5
 function getSign(params, key) {
@@ -39,7 +40,7 @@ module.exports = async (req, res) => {
       type: 'wxpay',
       out_trade_no: outTradeNo,
       notify_url: BASE + '/api/notify',
-      return_url: 'https://flu274002-jpg.github.io/piggy-bank/',
+      return_url: RETURN_URL,
       name: '小荷包收款',
       money: parseFloat(amount).toFixed(2),
       sign_type: 'MD5'
@@ -53,12 +54,16 @@ module.exports = async (req, res) => {
     if (!global.orders) global.orders = {};
     global.orders[outTradeNo] = { amount: parseFloat(amount), accountId: accountId || '', status: 'pending' };
 
-    // 构建支付 URL（URL 编码参数值）
+    // 直接返回支付 URL（带 return_url，供前端打开）
     const allKeys = Object.keys(params).sort();
     const qs = allKeys.map(k => k + '=' + encodeURIComponent(params[k])).join('&');
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ code: 1, pay_url: API_URL + '?' + qs, out_trade_no: outTradeNo }));
+    res.end(JSON.stringify({
+      code: 1,
+      pay_url: 'https://www.ezfpy.cn/submit.php?' + qs,
+      out_trade_no: outTradeNo
+    }));
   } catch (e) {
     res.writeHead(400);
     res.end(JSON.stringify({ error: e.message }));
