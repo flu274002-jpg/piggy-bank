@@ -863,11 +863,13 @@ function openEzPay(accId){
     try{
       var r=JSON.parse(xhr.responseText);
       if(r.code===1&&r.pay_url){
-        // 在新窗口打开支付页面
-        var pw=window.open('','_blank','width=400,height=600');
-        if(pw){pw.location.href=r.pay_url}else{window.open(r.pay_url)}
+        // 在页面内显示支付二维码
+        var qrModal=document.createElement('div');
+        qrModal.className='modal-overlay';qrModal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center';
+        qrModal.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:24px;text-align:center;max-width:320px;width:90%"><div style="font-size:1.1rem;font-weight:600;margin-bottom:4px">请使用微信扫码支付</div><div style="font-size:.85rem;color:var(--muted);margin-bottom:16px">¥'+formatMoney(amt)+'</div><img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(r.pay_url)+'" style="width:220px;height:220px;border-radius:8px;margin-bottom:12px" alt="支付二维码"><div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">请使用微信扫描二维码完成支付</div><div id="qrPayStatus" style="font-size:.85rem;color:var(--primary);margin-bottom:8px">等待支付...</div><button onclick="this.closest(\'.modal-overlay\').remove();clearInterval(checkTimer2)" style="padding:6px 20px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.85rem">关闭</button></div>';
+        document.body.appendChild(qrModal);
         // 轮询检测支付结果
-        var checkCount=0,checkTimer=setInterval(function(){
+        var checkCount=0,checkTimer2=setInterval(function(){
           checkCount++;
           var cx=new XMLHttpRequest();
           cx.open('GET',PAY_API+'/api/check?out_trade_no='+r.out_trade_no,true);
@@ -875,7 +877,8 @@ function openEzPay(accId){
             try{
               var cr=JSON.parse(cx.responseText);
               if(cr.status==='paid'){
-                clearInterval(checkTimer);
+                clearInterval(checkTimer2);
+                qrModal.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:24px;text-align:center;max-width:320px;width:90%"><div style="font-size:2.5rem;margin-bottom:8px">✅</div><div style="font-size:1.1rem;font-weight:600;color:var(--primary)">支付成功！</div><div style="font-size:.9rem;color:var(--muted);margin:8px 0">¥'+formatMoney(amt)+' 已到账</div><button onclick="this.closest(\'.modal-overlay\').remove()" style="padding:8px 24px;border-radius:var(--radius-xs);background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:.9rem">确定</button></div>';
                 // 记录到账
                 if(a)a.balance=(a.balance||0)+amt;
                 var tx={id:genRealTxId(),type:'income',amount:amt,note:'易支付收款',category:'收款',date:new Date().toISOString(),accountId:accId};
@@ -884,11 +887,13 @@ function openEzPay(accId){
                 saveData();renderReal();
                 speakText('已收到'+amt+'元');
                 toast('✅ 收款 ¥'+formatMoney(amt)+' 已自动到账！')
+              }else if(cr.status==='pending'){
+                document.getElementById('qrPayStatus').textContent='⏳ 支付处理中...'
               }
             }catch(ex){}
           };
           cx.send();
-          if(checkCount>60){clearInterval(checkTimer);toast('⏰ 支付超时，请重新发起')}
+          if(checkCount>60){clearInterval(checkTimer2);document.getElementById('qrPayStatus').textContent='⏰ 支付超时，请重新发起'}
         },2000);
       }else{toast('创建订单失败：'+(r.error||'未知错误'))}
     }catch(ex){toast('创建订单失败，请重试')}
