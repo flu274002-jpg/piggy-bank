@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
       type: 'wxpay',
       out_trade_no: outTradeNo,
       notify_url: BASE + '/api/notify',
+      return_url: 'https://flu274002-jpg.github.io/piggy-bank/',
       name: '小荷包收款',
       money: parseFloat(amount).toFixed(2),
       sign_type: 'MD5'
@@ -52,7 +53,7 @@ module.exports = async (req, res) => {
     if (!global.orders) global.orders = {};
     global.orders[outTradeNo] = { amount: parseFloat(amount), accountId: accountId || '', status: 'pending' };
 
-    // 构建支付 URL（不含 return_url，因为易支付此参数有签名 Bug）
+    // 构建支付 URL（URL 编码参数值）
     const allKeys = Object.keys(params).sort();
     const qs = allKeys.map(k => k + '=' + encodeURIComponent(params[k])).join('&');
 
