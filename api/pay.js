@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     if (!amount || amount <= 0) { res.writeHead(400); res.end(JSON.stringify({ error: '无效金额' })); return; }
 
     const outTradeNo = 'piggy_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-    const BASE = 'https://' + (process.env.VERCEL_URL || 'localhost');
+    const BASE = 'https://piggy-bank-plum.vercel.app';
 
     const params = {
       pid: MERCHANT_ID, type: 'wxpay',
