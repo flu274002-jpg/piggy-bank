@@ -753,7 +753,7 @@ function selectAccColor(el){document.querySelectorAll('#accColorPicker .color-op
 function getSelAccIcon(){var s=document.querySelector('#accIconPicker .selected');return s?s.dataset.icon:'💳'}
 function getSelAccColor(){var s=document.querySelector('#accColorPicker .selected');return s?s.dataset.color:ACC_COLORS[0]}
 function saveAccount(e){e.preventDefault();var id=document.getElementById('editAccId').value,name=document.getElementById('accName').value.trim(),type=document.getElementById('accType').value,icon=getSelAccIcon(),color=getSelAccColor(),balance=parseFloat(document.getElementById('accBalance').value)||0;if(!name)return toast('请输入账户名称');if(id){var a=getAcc(id);if(a){a.name=name;a.type=type;a.icon=icon;a.color=color;saveData();toast('已更新')}}else{appData.accounts.push({id:genAccId(),name,type,icon,color,balance,createdAt:new Date().toISOString()});saveData();toast('账户已添加 💳')};closeModal('addAccModal');renderReal()}
-function openAccMenu(accId){var a=getAcc(accId);if(!a)return;var tl={wechat:'微信',alipay:'支付宝',bank:'银行卡',cash:'现金',other:'其他'};document.getElementById('accMenuContent').innerHTML='<div style="text-align:center;padding:4px 0 8px;border-bottom:1px solid var(--border)"><div style="font-size:1.2rem">'+a.icon+'</div><div style="font-size:.82rem;font-weight:600">'+escHtml(a.name)+'</div><div style="font-size:.68rem;color:var(--text2)">¥'+formatMoney(a.balance)+' · '+(tl[a.type]||a.type)+' · '+(a.group||'未分组')+'</div></div><div onclick="closeModal(\'accMenuModal\');openWechatCollect(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--success);color:#fff;margin-bottom:3px">🧾 微信收款</div><div onclick="closeModal(\'accMenuModal\');openPayReq(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--warning);color:#fff;margin-bottom:3px">📤 请求收款</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'income\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📈 记录收入</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'expense\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📉 记录支出</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'transfer\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">🔄 转账</div><div onclick="closeModal(\'accMenuModal\');adjustAccBalance(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">✏️ 调整余额</div><div onclick="closeModal(\'accMenuModal\');editAccGroup(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📂 更改分组</div><div onclick="closeModal(\'accMenuModal\');deleteAcc(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--danger);border-top:1px solid var(--border);margin-top:3px;padding-top:9px">🗑️ 删除</div>';showModal('accMenuModal')}
+function openAccMenu(accId){var a=getAcc(accId);if(!a)return;var tl={wechat:'微信',alipay:'支付宝',bank:'银行卡',cash:'现金',other:'其他'};document.getElementById('accMenuContent').innerHTML='<div style="text-align:center;padding:4px 0 8px;border-bottom:1px solid var(--border)"><div style="font-size:1.2rem">'+a.icon+'</div><div style="font-size:.82rem;font-weight:600">'+escHtml(a.name)+'</div><div style="font-size:.68rem;color:var(--text2)">¥'+formatMoney(a.balance)+' · '+(tl[a.type]||a.type)+' · '+(a.group||'未分组')+'</div></div><div onclick="closeModal(\'accMenuModal\');openWechatCollect(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--success);color:#fff;margin-bottom:3px">🧾 微信收款(手动)</div><div onclick="closeModal(\'accMenuModal\');openEzPay(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--primary);color:#fff;margin-bottom:3px">⚡ 易支付(自动)</div><div onclick="closeModal(\'accMenuModal\');openPayReq(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;background:var(--warning);color:#fff;margin-bottom:3px">📤 请求收款</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'income\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📈 记录收入</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'expense\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📉 记录支出</div><div onclick="closeModal(\'accMenuModal\');recordRealTxFromAcc(\''+accId+'\',\'transfer\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">🔄 转账</div><div onclick="closeModal(\'accMenuModal\');adjustAccBalance(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">✏️ 调整余额</div><div onclick="closeModal(\'accMenuModal\');editAccGroup(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem">📂 更改分组</div><div onclick="closeModal(\'accMenuModal\');deleteAcc(\''+accId+'\')" style="padding:8px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--danger);border-top:1px solid var(--border);margin-top:3px;padding-top:9px">🗑️ 删除</div>';showModal('accMenuModal')}
 function recordRealTxFromAcc(accId,type){currentAccId=accId;openRealTx(type)}
 var currentAccId=null,realTxMode='income';
 function openWechatCollect(accId){
@@ -846,6 +846,56 @@ function openPayReq(accId){
   document.getElementById('payReqOverlay').classList.add('active')
 }
 function closePayReq(){document.getElementById('payReqOverlay').classList.remove('active')}
+
+// ===== 易支付对接 =====
+var PAY_API = 'https://piggy-bank-api.vercel.app'; // 部署后替换
+function openEzPay(accId){
+  var a=getAcc(accId);if(!a)return;
+  var amt=prompt('输入收款金额（¥）：'+(a.name?'\n收款账户：'+a.icon+' '+escHtml(a.name):''));
+  if(!amt||isNaN(parseFloat(amt))||parseFloat(amt)<=0)return toast('请输入有效金额');
+  amt=parseFloat(amt);
+  toast('正在生成支付二维码...');
+  // 调用后端创建订单
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST',PAY_API+'/api/create-order',true);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.onload=function(){
+    try{
+      var r=JSON.parse(xhr.responseText);
+      if(r.code===1&&r.pay_url){
+        // 在新窗口打开支付页面
+        var pw=window.open('','_blank','width=400,height=600');
+        if(pw){pw.location.href=r.pay_url}else{window.open(r.pay_url)}
+        // 轮询检测支付结果
+        var checkCount=0,checkTimer=setInterval(function(){
+          checkCount++;
+          var cx=new XMLHttpRequest();
+          cx.open('GET',PAY_API+'/api/check-order?out_trade_no='+r.out_trade_no,true);
+          cx.onload=function(){
+            try{
+              var cr=JSON.parse(cx.responseText);
+              if(cr.status==='paid'){
+                clearInterval(checkTimer);
+                // 记录到账
+                if(a)a.balance=(a.balance||0)+amt;
+                var tx={id:genRealTxId(),type:'income',amount:amt,note:'易支付收款',category:'收款',date:new Date().toISOString(),accountId:accId};
+                if(!appData.realTransactions)appData.realTransactions=[];
+                appData.realTransactions.push(tx);
+                saveData();renderReal();
+                speakText('已收到'+amt+'元');
+                toast('✅ 收款 ¥'+formatMoney(amt)+' 已自动到账！')
+              }
+            }catch(ex){}
+          };
+          cx.send();
+          if(checkCount>60){clearInterval(checkTimer);toast('⏰ 支付超时，请重新发起')}
+        },2000);
+      }else{toast('创建订单失败：'+(r.error||'未知错误'))}
+    }catch(ex){toast('创建订单失败，请重试')}
+  };
+  xhr.onerror=function(){toast('网络错误，请重试')};
+  xhr.send(JSON.stringify({amount:amt,accountId:accId}))
+}
 
 // ===== CSV EXPORT =====
 function exportCSV(){
