@@ -848,7 +848,7 @@ function openPayReq(accId){
 function closePayReq(){document.getElementById('payReqOverlay').classList.remove('active')}
 
 // ===== 易支付对接 =====
-var PAY_API = 'https://piggy-bank-api.vercel.app'; // 部署后替换
+var PAY_API = 'https://piggy-bank-plum.vercel.app';
 function openEzPay(accId){
   var a=getAcc(accId);if(!a)return;
   var amt=prompt('输入收款金额（¥）：'+(a.name?'\n收款账户：'+a.icon+' '+escHtml(a.name):''));
@@ -857,7 +857,7 @@ function openEzPay(accId){
   toast('正在生成支付二维码...');
   // 调用后端创建订单
   var xhr=new XMLHttpRequest();
-  xhr.open('POST',PAY_API+'/api/create-order',true);
+  xhr.open('POST',PAY_API+'/api/pay',true);
   xhr.setRequestHeader('Content-Type','application/json');
   xhr.onload=function(){
     try{
@@ -870,7 +870,7 @@ function openEzPay(accId){
         var checkCount=0,checkTimer=setInterval(function(){
           checkCount++;
           var cx=new XMLHttpRequest();
-          cx.open('GET',PAY_API+'/api/check-order?out_trade_no='+r.out_trade_no,true);
+          cx.open('GET',PAY_API+'/api/check?out_trade_no='+r.out_trade_no,true);
           cx.onload=function(){
             try{
               var cr=JSON.parse(cx.responseText);
