@@ -57,9 +57,9 @@ module.exports = async (req, res) => {
     if (!global.orders) global.orders = {};
     global.orders[outTradeNo] = { amount: parseFloat(amount), accountId: accountId || '', status: 'pending' };
 
-    // 构建 URL：按官方 demo 方式，不 URL 编码参数值
+    // 构建 URL：参数值需要 URL 编码，防止 & 和 ? 破坏 URL
     const allKeys = Object.keys(params).sort();
-    const qs = allKeys.map(k => k + '=' + params[k]).join('&');
+    const qs = allKeys.map(k => k + '=' + encodeURIComponent(params[k])).join('&');
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ code: 1, pay_url: API_URL + '?' + qs, out_trade_no: outTradeNo }));
   } catch (e) {
