@@ -73,7 +73,8 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // 3. 两处都找不到
+  // 3. 两处都找不到 - 说明订单在另一个实例创建或用户尚未访问支付页
+  //    返回 pending 让前端继续轮询，不要返回 not_found
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ status: 'not_found', amount: 0 }));
+  res.end(JSON.stringify({ status: 'pending', amount: 0 }));
 };
