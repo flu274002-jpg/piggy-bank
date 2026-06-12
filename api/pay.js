@@ -5,7 +5,7 @@ const querystring = require('querystring');
 
 const APP_ID = '20211120058';
 const APP_KEY = '4545140cb02f1b185a475627e401fa95';
-const API_URL = 'https://api.xunhupay.com/payment/do.html';
+const API_URL = 'https://api.dpweixin.com/payment/do.html';
 const BASE = 'https://piggy-bank-plum.vercel.app';
 const RETURN_URL = 'https://flu274002-jpg.github.io/piggy-bank/';
 
@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
     const result = await new Promise((resolve, reject) => {
       const postData = JSON.stringify(params);
       const opts = {
-        hostname: 'api.xunhupay.com',
+        hostname: 'api.dpweixin.com',
         path: '/payment/do.html',
         method: 'POST',
         headers: {
