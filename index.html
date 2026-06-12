@@ -862,11 +862,15 @@ function openEzPay(accId){
   xhr.onload=function(){
     try{
       var r=JSON.parse(xhr.responseText);
-      if(r.code===1&&r.pay_url){
+      if(r.code===1&&(r.url_qrcode||r.url)){
+        // 判断：有 url_qrcode 则直接用它（它就是二维码图片），否则用 url 生成二维码
+        var hasDirectQr=!!r.url_qrcode;
+        var qrSrc=hasDirectQr ? r.url_qrcode : 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(r.url);
+        var isMobile='ontouchstart' in window||navigator.maxTouchPoints>0;
         // 在页面内显示支付二维码
         var qrModal=document.createElement('div');
         qrModal.className='modal-overlay';qrModal.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center';
-        qrModal.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:24px;text-align:center;max-width:320px;width:90%"><div style="font-size:1.1rem;font-weight:600;margin-bottom:4px">请使用微信/支付宝扫码付款</div><div style="font-size:.85rem;color:var(--muted);margin-bottom:16px">¥'+formatMoney(amt)+'</div><img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(r.pay_url)+'" style="width:220px;height:220px;border-radius:8px;margin-bottom:12px" alt="支付二维码"><div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">请打开微信或支付宝扫码完成支付</div><div id="qrPayStatus" style="font-size:.85rem;color:var(--primary);margin-bottom:8px">等待支付...</div><button onclick="this.closest(\'.modal-overlay\').remove();clearInterval(checkTimer2)" style="padding:6px 20px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.85rem">关闭</button></div>';
+        qrModal.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:24px;text-align:center;max-width:320px;width:90%"><div style="font-size:1.1rem;font-weight:600;margin-bottom:4px">请使用微信扫码付款</div><div style="font-size:.85rem;color:var(--muted);margin-bottom:16px">¥'+formatMoney(amt)+'</div><img src="'+qrSrc+'" style="width:220px;height:220px;border-radius:8px;margin-bottom:12px;cursor:pointer" alt="支付二维码" onclick="window.open(\''+r.url+'\',\'_blank\')"><div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">打开微信扫一扫完成支付</div>'+(isMobile&&r.url?'<a href="'+r.url+'" target="_blank" style="display:inline-block;padding:8px 20px;border-radius:var(--radius-xs);background:var(--primary);color:#fff;text-decoration:none;font-size:.85rem;margin-bottom:8px">📱 手机直接支付</a><br>':'')+'<div id="qrPayStatus" style="font-size:.85rem;color:var(--primary);margin-bottom:8px">等待支付...</div><button onclick="this.closest(\'.modal-overlay\').remove();clearInterval(checkTimer2)" style="padding:6px 20px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.85rem">关闭</button></div>';
         document.body.appendChild(qrModal);
         // 轮询检测支付结果
         var checkCount=0,checkTimer2=setInterval(function(){
@@ -881,7 +885,7 @@ function openEzPay(accId){
                 qrModal.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:24px;text-align:center;max-width:320px;width:90%"><div style="font-size:2.5rem;margin-bottom:8px">✅</div><div style="font-size:1.1rem;font-weight:600;color:var(--primary)">支付成功！</div><div style="font-size:.9rem;color:var(--muted);margin:8px 0">¥'+formatMoney(amt)+' 已到账</div><button onclick="this.closest(\'.modal-overlay\').remove()" style="padding:8px 24px;border-radius:var(--radius-xs);background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:.9rem">确定</button></div>';
                 // 记录到账
                 if(a)a.balance=(a.balance||0)+amt;
-                var tx={id:genRealTxId(),type:'income',amount:amt,note:'易支付收款',category:'收款',date:new Date().toISOString(),accountId:accId};
+                var tx={id:genRealTxId(),type:'income',amount:amt,note:'虎皮椒收款',category:'收款',date:new Date().toISOString(),accountId:accId};
                 if(!appData.realTransactions)appData.realTransactions=[];
                 appData.realTransactions.push(tx);
                 saveData();renderReal();
