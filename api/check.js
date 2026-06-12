@@ -1,5 +1,4 @@
 // 虎皮椒 - 查询订单状态
-// 先查本地内存，再查虎皮椒 API 作为兜底
 const https = require('https');
 const crypto = require('crypto');
 
@@ -7,7 +6,6 @@ const APP_ID = '20211120058';
 const APP_KEY = '4545140cb02f1b185a475627e401fa95';
 const API_HOST = 'api.dpweixin.com';
 
-// 虎皮椒签名算法：排除 hash → 排序 → k=v& 拼接 → 直接 + APPKEY → MD5
 function generateHash(params, appkey) {
   const sortedKeys = Object.keys(params).sort();
   let arg = '';
@@ -19,7 +17,6 @@ function generateHash(params, appkey) {
   return crypto.createHash('md5').update(arg + appkey).digest('hex').toLowerCase();
 }
 
-// 生成随机字符串
 function nonceStr(len) {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -57,20 +54,22 @@ function queryXunhu(orderNo) {
         try {
           const j = JSON.parse(data);
           if (j.errcode === 0 && j.data) {
+            // 有可能金额字段是 total_fee 或 order_money 或其他
+            const amount = parseFloat(j.data.total_fee || j.data.order_money || j.data.money || 0);
             const status = j.data.status === 'OD' ? 'paid' : 'pending';
-            resolve({ status: status, amount: parseFloat(j.data.total_fee || j.data.order_money || 0) });
+            resolve({ status, amount, raw: j });
           } else {
-            resolve(null);
+            resolve({ status: 'pending', amount: 0, raw: j, notFound: true });
           }
         } catch (e) {
-          resolve(null);
+          resolve({ status: 'pending', amount: 0, raw: null, parseError: e.message });
         }
       });
     });
-    req.on('error', () => resolve(null));
+    req.on('error', e => resolve({ status: 'pending', amount: 0, raw: null, networkError: e.message }));
     req.write(postData);
     req.end();
-    req.setTimeout(8000, () => { req.destroy(); resolve(null); });
+    req.setTimeout(10000, () => { req.destroy(); resolve({ status: 'pending', amount: 0, raw: null, timeout: true }); });
   });
 }
 
@@ -85,26 +84,36 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // 1. 先查本地内存
+  // 1. 先查本地内存（如果有的话）
   if (global.orders && global.orders[outTradeNo]) {
     const o = global.orders[outTradeNo];
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: o.status, amount: o.amount }));
-    return;
+    if (o.status === 'paid') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'paid', amount: o.amount }));
+      return;
+    }
   }
 
-  // 2. 本地没有，查虎皮椒 API
+  // 2. 查虎皮椒 API（不依赖本地内存，解决多实例问题）
   const xhResult = await queryXunhu(outTradeNo);
-  if (xhResult) {
+
+  if (xhResult && xhResult.status === 'paid') {
     // 查到已支付，同步到本地内存
     if (!global.orders) global.orders = {};
-    global.orders[outTradeNo] = { status: xhResult.status, amount: xhResult.amount };
+    global.orders[outTradeNo] = { status: 'paid', amount: xhResult.amount };
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(xhResult));
+    res.end(JSON.stringify({ status: 'paid', amount: xhResult.amount }));
     return;
   }
 
-  // 3. 两处都找不到 - 返回 pending 让前端继续轮询
+  // 3. 如果虎皮椒说订单不存在，但本地有记录（跨实例），保留 pending
+  if (global.orders && global.orders[outTradeNo]) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'pending', amount: global.orders[outTradeNo].amount }));
+    return;
+  }
+
+  // 4. 都查不到
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ status: 'pending', amount: 0 }));
 };
