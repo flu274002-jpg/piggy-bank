@@ -375,6 +375,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <div class="stat-card"><div class="stat-icon">📉</div><div class="stat-value" id="realStatExpense">¥0</div><div class="stat-label">本月支出</div></div>
     <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="realStatNet">¥0</div><div class="stat-label">收支差</div></div>
   </div>
+  <div id="pendingWithdrawNotice"></div>
+    <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value" id="realStatIncome">¥0</div><div class="stat-label">本月收入</div></div>
+    <div class="stat-card"><div class="stat-icon">📉</div><div class="stat-value" id="realStatExpense">¥0</div><div class="stat-label">本月支出</div></div>
+    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-value" id="realStatNet">¥0</div><div class="stat-label">收支差</div></div>
+  </div>
   <div class="section"><div class="section-header"><span class="section-title">💳 我的账户</span><div><button class="real-share-btn" onclick="openRealShareCard()">📤 分享</button><button class="section-action" onclick="openAddAccount()">+ 添加</button></div></div><div id="accountList"></div></div>
   <div class="section" id="budgetWidget"></div>
 </div>
@@ -643,10 +648,10 @@ var ACC_ICONS=['💳','🏦','💵','📱','💻','🎯','🎁','⭐'];
 var ACC_COLORS=['#07C160','#2196F3','#FF9800','#9C27B0','#00BCD4','#4CAF50','#E91E63','#FF6B35'];
 var INCOME_CATS=['工资','兼职','投资收益','红包','理财','返现','其他收入'];
 var EXPENSE_CATS=['餐饮','交通','购物','娱乐','住房','通讯','医疗','教育','服饰','日用','人情','提现','其他'];
-function defaultData(){return{pots:[],nextId:1,nextMemberId:2,accounts:[],realTransactions:[],nextAccId:1,nextRealTxId:1,budgets:{}}}
+function defaultData(){return{pots:[],nextId:1,nextMemberId:2,accounts:[],realTransactions:[],nextAccId:1,nextRealTxId:1,budgets:{},withdrawRequests:[]}}
 var appData=defaultData(),showArchived=false;
 
-function loadData(){try{var raw=localStorage.getItem(gsk());if(raw){var d=JSON.parse(raw);if(!d.pots)d.pots=[];if(!d.accounts)d.accounts=[];if(!d.realTransactions)d.realTransactions=[];if(!d.nextId)d.nextId=1;if(!d.nextMemberId)d.nextMemberId=2;if(!d.nextAccId)d.nextAccId=1;if(!d.nextRealTxId)d.nextRealTxId=1;
+function loadData(){try{var raw=localStorage.getItem(gsk());if(raw){var d=JSON.parse(raw);if(!d.pots)d.pots=[];if(!d.accounts)d.accounts=[];if(!d.realTransactions)d.realTransactions=[];if(!d.nextId)d.nextId=1;if(!d.nextMemberId)d.nextMemberId=2;if(!d.nextAccId)d.nextAccId=1;if(!d.nextRealTxId)d.nextRealTxId=1;if(!d.withdrawRequests)d.withdrawRequests=[];
   d.pots.forEach(function(p){if(!p.transactions)p.transactions=[];if(!p.members)p.members=JSON.parse(JSON.stringify(DEFAULT_MEMBERS));if(!p.milestones)p.milestones=[];if(!p.autoPlans)p.autoPlans=[];if(!p.note)p.note='';if(!p.tags)p.tags=[];if(p.balance===undefined)p.balance=0;if(p.archived===undefined)p.archived=false;
     p.transactions.forEach(function(t){if(!t.id)t.id='tx_'+Date.now();if(!t.potId)t.potId=p.id;if(!t.type)t.type='deposit'})});
   d.accounts.forEach(function(a){if(a.balance===undefined)a.balance=0;if(!a.group)a.group='未分组'});
@@ -733,6 +738,15 @@ function renderReal(){
   var te=txs.filter(function(t){return t.type==='expense'}).reduce(function(s,t){return s+(t.amount||0)},0);
   document.getElementById('realTotalBalance').textContent=formatMoney(tb);
   document.getElementById('realTotalSub').textContent=accts.length+'个账户 · 本月支出 ¥'+formatMoney(te);
+  // 待确认提现提醒
+  var pendingReqs=(appData.withdrawRequests||[]).filter(function(r){return r.status==='pending'});
+  var pendingHtml='';
+  if(pendingReqs.length>0){
+    pendingHtml='<div onclick="showWithdrawList()" style="background:var(--warning)15;border:1px solid var(--warning);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between">'+
+      '<span style="font-size:.82rem">📋 有 <strong>'+pendingReqs.length+'</strong> 笔提现申请待确认</span>'+
+      '<span style="font-size:.78rem;color:var(--warning)">点此处理 →</span></div>'
+  }
+  document.getElementById('pendingWithdrawNotice').innerHTML=pendingHtml;
   document.getElementById('realStatAccounts').textContent=accts.length;
   document.getElementById('realStatIncome').textContent='¥'+formatMoney(ti);
   document.getElementById('realStatExpense').textContent='¥'+formatMoney(te);
@@ -767,17 +781,78 @@ function withdrawFromAcc(accId){
   var a=getAcc(accId);
   if(!a)return toast('账户不存在');
   if(!a.balance||a.balance<=0)return toast('余额为 0，无需提现');
-  var amt=parseFloat(prompt('输入提现金额（¥）：',''));
+  var amt=parseFloat(prompt('输入申请提现金额（¥）：',''));
   if(!amt||amt<=0)return toast('请输入有效金额');
   if(amt>a.balance)return toast('余额不足，当前余额 ¥'+formatMoney(a.balance));
-  if(!confirm('确认从「'+a.icon+' '+escHtml(a.name)+'」提现 ¥'+formatMoney(amt)+' 吗？'))return;
-  a.balance=(a.balance||0)-amt;
-  var tx={id:genRealTxId(),type:'expense',amount:amt,note:'提现到微信',category:'提现',date:new Date().toISOString(),accountId:accId};
+  // 创建提现申请（不扣余额）
+  if(!appData.withdrawRequests)appData.withdrawRequests=[];
+  appData.withdrawRequests.push({
+    id: 'wr_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+    accountId: accId,
+    amount: amt,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+    note: '提现到微信/支付宝'
+  });
+  saveData();renderReal();
+  toast('📋 提现申请已提交，请手动确认')
+}
+function confirmWithdraw(reqId){
+  var req=null,idx=-1;
+  appData.withdrawRequests.forEach(function(r,i){if(r.id===reqId){req=r;idx=i}});
+  if(!req||req.status!=='pending')return toast('申请已处理');
+  var a=getAcc(req.accountId);
+  if(!a)return toast('账户不存在');
+  if((a.balance||0)<req.amount)return toast('余额不足，无法确认');
+  // 扣余额
+  a.balance=(a.balance||0)-req.amount;
+  // 加交易记录
+  var tx={id:genRealTxId(),type:'expense',amount:req.amount,note:'提现到微信/支付宝',category:'提现',date:new Date().toISOString(),accountId:req.accountId};
   if(!appData.realTransactions)appData.realTransactions=[];
   appData.realTransactions.push(tx);
+  // 更新申请状态
+  req.status='done';
+  req.confirmedAt=new Date().toISOString();
   saveData();renderReal();
-  speakText('已提现'+amt+'元');
-  toast('✅ 已提现 ¥'+formatMoney(amt)+' 到微信/支付宝')
+  showWithdrawList();
+  speakText('已确认提现'+req.amount+'元');
+  toast('✅ 提现 ¥'+formatMoney(req.amount)+' 已确认')
+}
+function cancelWithdraw(reqId){
+  var req=null,idx=-1;
+  appData.withdrawRequests.forEach(function(r,i){if(r.id===reqId){req=r;idx=i}});
+  if(!req||req.status!=='pending')return toast('申请已处理');
+  if(!confirm('取消此提现申请？'))return;
+  req.status='cancelled';
+  req.cancelledAt=new Date().toISOString();
+  saveData();renderReal();
+  showWithdrawList();
+  toast('已取消提现申请')
+}
+function showWithdrawList(){
+  var reqs=(appData.withdrawRequests||[]).filter(function(r){return r.status==='pending'});
+  if(reqs.length===0)return toast('没有待确认的提现申请');
+  // 获取账户映射
+  var accMap={};appData.accounts.forEach(function(a){accMap[a.id]=a});
+  var html='<div style="max-height:400px;overflow-y:auto">';
+  reqs.forEach(function(r){
+    var a=accMap[r.accountId]||{icon:'💳',name:'已删除'};
+    html+='<div style="background:var(--card);border-radius:var(--radius-sm);padding:10px;margin-bottom:8px;border:1px solid var(--border)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center">'+
+      '<div><div>'+a.icon+' '+escHtml(a.name)+'</div><div style="font-size:1.1rem;font-weight:600;color:var(--danger);margin:4px 0">- ¥'+formatMoney(r.amount)+'</div>'+
+      '<div style="font-size:.7rem;color:var(--text3)">'+new Date(r.createdAt).toLocaleString()+'</div></div>'+
+      '<div style="display:flex;flex-direction:column;gap:4px">'+
+      '<button onclick="confirmWithdraw(\''+r.id+'\')" style="padding:6px 14px;border-radius:var(--radius-xs);background:var(--success);color:#fff;border:none;cursor:pointer;font-size:.78rem">✅ 确认</button>'+
+      '<button onclick="cancelWithdraw(\''+r.id+'\')" style="padding:6px 14px;border-radius:var(--radius-xs);background:var(--text3);color:#fff;border:none;cursor:pointer;font-size:.78rem">✕ 取消</button></div></div></div>'
+  });
+  html+='</div>';
+  showCustomModal('📋 待确认提现',html)
+}
+function showCustomModal(title,content){
+  var o=document.createElement('div');
+  o.className='modal-overlay';o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center';
+  o.innerHTML='<div style="background:var(--card);border-radius:var(--radius-md);padding:20px;max-width:360px;width:90%;max-height:80vh;overflow-y:auto"><div style="font-size:1rem;font-weight:600;margin-bottom:12px">'+title+'</div>'+content+'<button onclick="this.closest(\'.modal-overlay\').remove()" style="margin-top:12px;width:100%;padding:8px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.85rem">关闭</button></div>';
+  document.body.appendChild(o)
 }
 var currentAccId=null,realTxMode='income';
 function openWechatCollect(accId){
