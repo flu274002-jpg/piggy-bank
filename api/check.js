@@ -1,33 +1,64 @@
-// 易支付 - 查询订单状态
-// 先查本地内存，再查易支付 API 作为兜底
+// 虎皮椒 - 查询订单状态
+// 先查本地内存，再查虎皮椒 API 作为兜底
 const https = require('https');
 const crypto = require('crypto');
 
-const MERCHANT_KEY = '71kPZP2PmrwIV2ELZS2VxwW8Ey3bzYQLz';
+const APP_ID = '20211120058';
+const APP_KEY = '4545140cb02f1b185a475627e401fa95';
+const API_HOST = 'api.dpweixin.com';
 
-function queryEzfpy(orderNo) {
+// 虎皮椒签名算法：排除 hash → 排序 → k=v& 拼接 → 直接 + APPKEY → MD5
+function generateHash(params, appkey) {
+  const sortedKeys = Object.keys(params).sort();
+  let arg = '';
+  sortedKeys.forEach(k => {
+    if (k === 'hash' || params[k] === null || params[k] === '') return;
+    if (arg) arg += '&';
+    arg += k + '=' + params[k];
+  });
+  return crypto.createHash('md5').update(arg + appkey).digest('hex').toLowerCase();
+}
+
+// 生成随机字符串
+function nonceStr(len) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < len; i++) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
+}
+
+// 通过虎皮椒 API 查询订单
+function queryXunhu(orderNo) {
   return new Promise(resolve => {
-    const signRaw = 'order_no=' + orderNo + '&type=1&key=' + MERCHANT_KEY;
-    const sign = crypto.createHash('md5').update(signRaw).digest('hex');
-    const body = 'order_no=' + orderNo + '&type=1&sign=' + sign;
+    const now = Math.floor(Date.now() / 1000);
+    const params = {
+      appid: APP_ID,
+      out_trade_order: orderNo,
+      time: now,
+      nonce_str: nonceStr(16)
+    };
+    params.hash = generateHash(params, APP_KEY);
+
+    const postData = JSON.stringify(params);
     const opts = {
-      hostname: 'www.ezfpy.cn',
-      path: '/api/findorder',
+      hostname: API_HOST,
+      path: '/payment/query.html',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(body)
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
       }
     };
+
     const req = https.request(opts, res => {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => {
         try {
           const j = JSON.parse(data);
-          if (j.code === 200 && j.data && j.data.length > 0) {
-            const order = j.data[0];
-            resolve({ status: order.status === '1' ? 'paid' : 'pending', amount: parseFloat(order.money || 0) });
+          if (j.errcode === 0 && j.data) {
+            const status = j.data.status === 'OD' ? 'paid' : 'pending';
+            resolve({ status: status, amount: parseFloat(j.data.total_fee || j.data.order_money || 0) });
           } else {
             resolve(null);
           }
@@ -37,9 +68,9 @@ function queryEzfpy(orderNo) {
       });
     });
     req.on('error', () => resolve(null));
-    req.write(body);
+    req.write(postData);
     req.end();
-    req.setTimeout(5000, () => { req.destroy(); resolve(null); });
+    req.setTimeout(8000, () => { req.destroy(); resolve(null); });
   });
 }
 
@@ -62,19 +93,18 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // 2. 本地没有，查易支付 API
-  const ezResult = await queryEzfpy(outTradeNo);
-  if (ezResult) {
+  // 2. 本地没有，查虎皮椒 API
+  const xhResult = await queryXunhu(outTradeNo);
+  if (xhResult) {
     // 查到已支付，同步到本地内存
     if (!global.orders) global.orders = {};
-    global.orders[outTradeNo] = { status: ezResult.status, amount: ezResult.amount };
+    global.orders[outTradeNo] = { status: xhResult.status, amount: xhResult.amount };
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(ezResult));
+    res.end(JSON.stringify(xhResult));
     return;
   }
 
-  // 3. 两处都找不到 - 说明订单在另一个实例创建或用户尚未访问支付页
-  //    返回 pending 让前端继续轮询，不要返回 not_found
+  // 3. 两处都找不到 - 返回 pending 让前端继续轮询
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ status: 'pending', amount: 0 }));
 };
