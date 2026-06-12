@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
       appid: APP_ID,
       trade_order_id: tradeOrderId,
       total_fee: parseFloat(amount).toFixed(2),
-      title: '小荷包充值',
+      title: '小飞荷包充值',
       time: now,
       notify_url: BASE + '/api/notify',
       return_url: RETURN_URL,
