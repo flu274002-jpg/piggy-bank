@@ -3,7 +3,7 @@ const https = require('https');
 const crypto = require('crypto');
 const querystring = require('querystring');
 
-const APP_ID = '20211120058';
+const APP_ID = '202111200958';
 const APP_KEY = '4545140cb02f1b185a475627e401fa95';
 const API_URL = 'https://api.dfpweixin.com/payment/do.html';
 const BASE = 'https://piggy-bank-plum.vercel.app';
