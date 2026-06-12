@@ -92,11 +92,12 @@ module.exports = async (req, res) => {
       if (!global.orders) global.orders = {};
       global.orders[tradeOrderId] = { amount: parseFloat(amount), accountId: accountId || '', status: 'pending' };
 
-      // 优先使用二维码，其次使用支付链接
-      const payUrl = result.url_qrcode || result.url || '';
+      // 分开返回，前端决定怎么用
+      const qrCodeImg = result.url_qrcode || '';  // 二维码图片地址（PC直接显示）
+      const payLink = result.url || '';            // 手机端直接跳转链接
 
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ code: 1, pay_url: payUrl, out_trade_no: tradeOrderId }));
+      res.end(JSON.stringify({ code: 1, url_qrcode: qrCodeImg, url: payLink, out_trade_no: tradeOrderId }));
     } else {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ code: 0, error: result.errmsg || '创建订单失败' }));
